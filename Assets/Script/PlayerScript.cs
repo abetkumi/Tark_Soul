@@ -5,13 +5,15 @@ using UnityEngine;
 //プレイヤー用スクリプトクラス
 public class PlayerScript : MonoBehaviour
 {
-    //軸入力用変数
-    float vert, horiz;
+    
+    private float vert, horiz;  //軸入力用変数
+    private CharacterController characterController;    //プレイヤー用キャラクターコントローラ
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -34,6 +36,12 @@ public class PlayerScript : MonoBehaviour
         Vector3 moveForward = cameraForward * vert + Camera.main.transform.right * horiz;
 
         //移動方向にプレイヤーを動かす
-        transform.Translate(moveForward * 5.0f * Time.deltaTime);
+        characterController.Move(moveForward * 3.0f * Time.deltaTime);
+
+        // キャラクターの向きを進行方向に
+        if (moveForward != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveForward);
+        }
     }
 }
