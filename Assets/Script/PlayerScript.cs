@@ -5,7 +5,9 @@ using UnityEngine;
 //プレイヤー用スクリプトクラス
 public class PlayerScript : MonoBehaviour
 {
-    
+    [SerializeField] float PlayerWalkSpeed;
+    [SerializeField] float PlayerSprintSpeed;
+
     private float vert, horiz;  //軸入力用変数
     private CharacterController characterController;    //プレイヤー用キャラクターコントローラ
 
@@ -36,7 +38,16 @@ public class PlayerScript : MonoBehaviour
         Vector3 moveForward = cameraForward * vert + Camera.main.transform.right * horiz;
 
         //移動方向にプレイヤーを動かす
-        characterController.Move(moveForward * 3.0f * Time.deltaTime);
+        //スプリントボタン(このコードを書いた時は左Shift)を押すと走る
+        if(Input.GetButton("Sprint")) 
+        {
+            characterController.Move(moveForward * PlayerSprintSpeed * Time.deltaTime);
+
+        }
+        else
+        {
+            characterController.Move(moveForward * PlayerWalkSpeed * Time.deltaTime);
+        }
 
         // キャラクターの向きを進行方向に
         if (moveForward != Vector3.zero)
