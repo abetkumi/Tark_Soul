@@ -2,11 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//プレイヤーのアクションステータス
+enum PlayerActionStatus
+{
+    Idle,
+    Walk,
+    Run,
+    Attack,
+}
+
+
 //プレイヤー用スクリプトクラス
 public class PlayerScript : MonoBehaviour
 {
     [SerializeField] float PlayerWalkSpeed;     //プレイヤーの歩く速度
     [SerializeField] float PlayerSprintSpeed;   //プレイヤーの走る速度
+
+    PlayerActionStatus playerActionStatus = PlayerActionStatus.Idle;
+
 
     private Animator animator = null;   //アニメーター
     private float vert, horiz;  //軸入力用変数
@@ -24,6 +38,11 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         doMove();
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            doAttack();
+        }
     }
 
     //移動用メソッド
@@ -64,6 +83,39 @@ public class PlayerScript : MonoBehaviour
         {
             animator.SetBool("Walk", false);
             animator.SetBool("Run", false);
+
+        }
+    }
+
+    void doAttack()
+    {
+        animator.SetBool("Attack_1", true);
+    }
+
+
+    void StateTransitionAttack()
+    {
+        playerActionStatus = PlayerActionStatus.Attack;
+    }
+
+    void StateTransitionWalk()
+    {
+        playerActionStatus = PlayerActionStatus.Walk;
+    }
+
+    void StateTransitionRun()
+    {
+        playerActionStatus = PlayerActionStatus.Run;
+    }
+
+    void AnimationStateUpdate()
+    {
+        switch(playerActionStatus)
+        {
+            case PlayerActionStatus.Attack:
+                break;
+            case PlayerActionStatus.Walk:
+                break;
 
         }
     }
