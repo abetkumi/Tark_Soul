@@ -2,12 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//プレイヤーのアクションステータス
+enum PlayerActionStatus
+{
+    Idle,
+    Walk,
+    Run,
+    Attack,
+}
+
+
 //プレイヤー用スクリプトクラス
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] float PlayerWalkSpeed;
-    [SerializeField] float PlayerSprintSpeed;
+    [SerializeField] float PlayerWalkSpeed;     //プレイヤーの歩く速度
+    [SerializeField] float PlayerSprintSpeed;   //プレイヤーの走る速度
 
+    PlayerActionStatus playerActionStatus = PlayerActionStatus.Idle;
+
+
+    private Animator animator = null;   //アニメーター
     private float vert, horiz;  //軸入力用変数
     private CharacterController characterController;    //プレイヤー用キャラクターコントローラ
 
@@ -15,6 +30,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
     }
 
@@ -22,6 +38,11 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         doMove();
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            doAttack();
+        }
     }
 
     //移動用メソッド
@@ -42,17 +63,60 @@ public class PlayerScript : MonoBehaviour
         if(Input.GetButton("Sprint")) 
         {
             characterController.Move(moveForward * PlayerSprintSpeed * Time.deltaTime);
-
+            animator.SetBool("Walk", false);
+            animator.SetBool("Run", true);
         }
         else
         {
             characterController.Move(moveForward * PlayerWalkSpeed * Time.deltaTime);
+            animator.SetBool("Walk", true);
+            animator.SetBool("Run", false);
+
         }
 
         // キャラクターの向きを進行方向に
         if (moveForward != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(moveForward);
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+            animator.SetBool("Run", false);
+
+        }
+    }
+
+    void doAttack()
+    {
+        animator.SetBool("Attack_1", true);
+    }
+
+
+    void StateTransitionAttack()
+    {
+        playerActionStatus = PlayerActionStatus.Attack;
+    }
+
+    void StateTransitionWalk()
+    {
+        playerActionStatus = PlayerActionStatus.Walk;
+    }
+
+    void StateTransitionRun()
+    {
+        playerActionStatus = PlayerActionStatus.Run;
+    }
+
+    void AnimationStateUpdate()
+    {
+        switch(playerActionStatus)
+        {
+            case PlayerActionStatus.Attack:
+                break;
+            case PlayerActionStatus.Walk:
+                break;
+
         }
     }
 }
