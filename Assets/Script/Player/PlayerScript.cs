@@ -10,22 +10,35 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float PlayerWalkSpeed;     //プレイヤーの歩く速度
     [SerializeField] float PlayerSprintSpeed;   //プレイヤーの走る速度
 
+    public float GetWalkSpeed()
+    {
+        return PlayerWalkSpeed;
+    }
+    public float GetSprintSpeed()
+    {
+        return PlayerSprintSpeed;
+    }
 
-    private Animator animator = null;   //アニメーター
-    private float vert, horiz;  //軸入力用変数
-    private CharacterController characterController;    //プレイヤー用キャラクターコントローラ
 
+    private Animator _animator = null;   //アニメーター
+    //private float vert, horiz;  //軸入力用変数
+    private CharacterController _characterController;    //プレイヤー用キャラクターコントローラ
+
+    private PlayerStateManagerScript _playerStateManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
-        characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
+        _characterController = GetComponent<CharacterController>();
+        _playerStateManager = new PlayerStateManagerScript(this.gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
+        _playerStateManager.Update();
+
         //doMove();
 
         //if(Input.GetMouseButtonDown(0))
@@ -34,9 +47,9 @@ public class PlayerScript : MonoBehaviour
         //}
     }
 
-    public void SetAnimatorState()
+    public void SetPlayerState(IPlayerStateScript state)
     {
-        //animator.SetBool("test")
+        _playerStateManager.SetPlayerState(state);
     }
 
     ////移動用メソッド

@@ -7,16 +7,20 @@ public class PlayerStateIdleScript : IPlayerStateScript
 {
     private GameObject _player;  //プレイヤー
     private PlayerScript _playerScript; //プレイヤーのスクリプト
+    private Animator _animator;
 
     public PlayerStateIdleScript(GameObject InsertPlayer)
     {
         _player = InsertPlayer;
+        _playerScript = _player.GetComponent<PlayerScript>();
+        _animator = _player.GetComponent<Animator>();
     }
 
     public override void Start()
     {
-        _playerScript = _player.GetComponent<PlayerScript>();
-        _playerScript.SetAnimatorState();
+        _animator.CrossFadeInFixedTime("Idle", 0.3f);
+        Debug.Log("待機状態");
+
     }
 
     public override void End()
@@ -26,13 +30,24 @@ public class PlayerStateIdleScript : IPlayerStateScript
 
     public override void Update()
     {
-
+        StateUpdate();
     }
 
 
     void StateUpdate()
     {
-        
-    }
+        //左クリックしたら
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("左クリック");
+            _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
+        }
 
+
+        //スティックの入力があったら
+        if(Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        {
+            _playerScript.SetPlayerState(new PlayerStateWalkScript(_player));
+        }
+    }
 }

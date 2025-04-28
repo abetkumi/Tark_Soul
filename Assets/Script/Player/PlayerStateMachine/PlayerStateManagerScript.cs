@@ -18,6 +18,14 @@ public class PlayerStateManagerScript
         _playerState.Start();
     }
 
+    public void SetPlayerState(IPlayerStateScript state)
+    {
+        _playerState.End();
+
+        _playerState = state;
+        _playerState.Start();
+    }
+
     //ステート処理
     public void Update()
     {
