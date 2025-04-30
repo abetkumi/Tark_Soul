@@ -10,6 +10,22 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float PlayerWalkSpeed;     //プレイヤーの歩く速度
     [SerializeField] float PlayerSprintSpeed;   //プレイヤーの走る速度
 
+    private Animator _animator = null;   //アニメーター
+    //private float vert, horiz;  //軸入力用変数
+    private CharacterController _characterController;    //プレイヤー用キャラクターコントローラ
+
+    private PlayerStateManagerScript _playerStateManager;   //プレイヤーステートマネージャー
+    private CapsuleCollider _swordCollider;    //プレイヤーの持っている剣に付けられたコライダー
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _animator = GetComponent<Animator>();
+        _characterController = GetComponent<CharacterController>();
+        _playerStateManager = new PlayerStateManagerScript(this.gameObject);
+        _swordCollider = GameObject.Find("mixamorig:Sword_joint").GetComponent<CapsuleCollider>();
+    }
+
     public float GetWalkSpeed()
     {
         return PlayerWalkSpeed;
@@ -19,19 +35,9 @@ public class PlayerScript : MonoBehaviour
         return PlayerSprintSpeed;
     }
 
-
-    private Animator _animator = null;   //アニメーター
-    //private float vert, horiz;  //軸入力用変数
-    private CharacterController _characterController;    //プレイヤー用キャラクターコントローラ
-
-    private PlayerStateManagerScript _playerStateManager;
-
-    // Start is called before the first frame update
-    void Start()
+    public CapsuleCollider GetSwordCollider()
     {
-        _animator = GetComponent<Animator>();
-        _characterController = GetComponent<CharacterController>();
-        _playerStateManager = new PlayerStateManagerScript(this.gameObject);
+        return _swordCollider;
     }
 
     // Update is called once per frame

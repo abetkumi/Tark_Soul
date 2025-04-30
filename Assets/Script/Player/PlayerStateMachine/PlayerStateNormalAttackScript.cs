@@ -21,11 +21,12 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
     {
         Debug.Log("çUåÇ");
         _animator.CrossFadeInFixedTime("attack_1", 0.3f);
+        _playerScript.GetSwordCollider().enabled = true;
     }
 
     public override void End()
     {
-
+        _playerScript.GetSwordCollider().enabled = false;
     }
 
     public override void Update()

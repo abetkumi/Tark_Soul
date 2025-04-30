@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateWalkScript : IPlayerStateScript
+public class PlayerStateRunScript : IPlayerStateScript
 {
     private GameObject _player;  //プレイヤー
     private PlayerScript _playerScript; //プレイヤーのスクリプト
@@ -11,7 +11,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
 
     private float vert, horiz;  //軸入力用変数
 
-    public PlayerStateWalkScript(GameObject InsertPlayer)
+    public PlayerStateRunScript(GameObject InsertPlayer)
     {
         _player = InsertPlayer;
         _playerScript = _player.GetComponent<PlayerScript>();
@@ -21,8 +21,8 @@ public class PlayerStateWalkScript : IPlayerStateScript
 
     public override void Start()
     {
-        _animator.CrossFadeInFixedTime("ForwardWalk", 0.3f);
-        Debug.Log("歩き");
+        _animator.CrossFadeInFixedTime("ForwardRun", 0.3f);
+        Debug.Log("ダッシュ");
 
     }
 
@@ -31,7 +31,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
 
     }
 
-    public override void Update() 
+    public override void Update()
     {
         StateUpdate();
         Move();
@@ -47,9 +47,9 @@ public class PlayerStateWalkScript : IPlayerStateScript
             return;
         }
 
-        if(Input.GetButton("Sprint"))
+        if (!Input.GetButton("Sprint"))
         {
-            _playerScript.SetPlayerState(new PlayerStateRunScript(_player));
+            _playerScript.SetPlayerState(new PlayerStateWalkScript(_player));
 
             return;
         }
@@ -67,8 +67,9 @@ public class PlayerStateWalkScript : IPlayerStateScript
         //Lスティックの入力とカメラの向きから、移動方向を決定
         Vector3 moveForward = cameraForward * vert + Camera.main.transform.right * horiz;
 
-        //移動方向にプレイヤーを動かす
-        _characterController.Move(moveForward * _playerScript.GetWalkSpeed() * Time.deltaTime);
+
+        _characterController.Move(moveForward * _playerScript.GetSprintSpeed() * Time.deltaTime);
+
 
         // キャラクターの向きを進行方向に
         if (moveForward != Vector3.zero)
@@ -76,5 +77,4 @@ public class PlayerStateWalkScript : IPlayerStateScript
             _player.transform.rotation = Quaternion.LookRotation(moveForward);
         }
     }
-
 }
