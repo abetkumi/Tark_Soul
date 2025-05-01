@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 //プレイヤー用スクリプトクラス
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour, IDamageable
 {
     [SerializeField] float PlayerWalkSpeed;     //プレイヤーの歩く速度
     [SerializeField] float PlayerSprintSpeed;   //プレイヤーの走る速度
@@ -58,50 +58,11 @@ public class PlayerScript : MonoBehaviour
         _playerStateManager.SetPlayerState(state);
     }
 
-    ////移動用メソッド
-    //void doMove()
-    //{
-    //    //Lスティックの縦横の入力を取得
-    //    vert = Input.GetAxis("Vertical");
-    //    horiz = Input.GetAxis("Horizontal");
-
-    //    //カメラの正面ベクトルから、横(x.z)方向のベクトルを抽出し正規化
-    //    Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
-
-    //    //Lスティックの入力とカメラの向きから、移動方向を決定
-    //    Vector3 moveForward = cameraForward * vert + Camera.main.transform.right * horiz;
-
-    //    //移動方向にプレイヤーを動かす
-    //    //スプリントボタン(このコードを書いた時は左Shift)を押すと走る
-    //    if(Input.GetButton("Sprint")) 
-    //    {
-    //        characterController.Move(moveForward * PlayerSprintSpeed * Time.deltaTime);
-    //        animator.SetBool("Walk", false);
-    //        animator.SetBool("Run", true);
-    //    }
-    //    else
-    //    {
-    //        characterController.Move(moveForward * PlayerWalkSpeed * Time.deltaTime);
-    //        animator.SetBool("Walk", true);
-    //        animator.SetBool("Run", false);
-
-    //    }
-
-    //    // キャラクターの向きを進行方向に
-    //    if (moveForward != Vector3.zero)
-    //    {
-    //        transform.rotation = Quaternion.LookRotation(moveForward);
-    //    }
-    //    else
-    //    {
-    //        animator.SetBool("Walk", false);
-    //        animator.SetBool("Run", false);
-
-    //    }
-    //}
-
-    //void doAttack()
-    //{
-    //    animator.SetBool("Attack_1", true);
-    //}
+    //IDamageableから継承？した被ダメージ処理
+    public void ReceivedDamage(int value)
+    {
+        //ステートを被ダメージに
+        SetPlayerState(new PlayerStateReceiveDamageScript(this.gameObject));
+    }
+    
 }

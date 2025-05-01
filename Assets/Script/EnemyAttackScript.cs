@@ -14,7 +14,13 @@ public class EnemyAttackScript : MonoBehaviour
     {
         if (col.tag == "Player")
         {
-            Debug.Log("“G‚ÌUŒ‚‚ª“–‚½‚Á‚½I");
+            //Debug.Log("“G‚ÌUŒ‚‚ª“–‚½‚Á‚½I");
+            IDamageable damageable = col.gameObject.GetComponent<IDamageable>();
+
+            if(damageable != null )
+            {
+                damageable.ReceivedDamage(1);
+            }
         }
     }
 
