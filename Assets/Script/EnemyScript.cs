@@ -12,10 +12,11 @@ enum EnemyStatus
     Death,
 }
 
-public class EnemyScript : MonoBehaviour
+public class EnemyScript : MonoBehaviour, IDamageable
 {
     //プレイヤーの変数
     [SerializeField] GameObject m_playerObject;
+    [SerializeField] int autoRotationSpeed; //ナビメッシュによる自動回転の速度
     PlayerScript m_playerScript;
     Vector3 m_playerPosition;
 
@@ -38,6 +39,7 @@ public class EnemyScript : MonoBehaviour
         m_enemyAttackScript = GetComponent<EnemyAttackScript>();
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
+        m_agent.angularSpeed = autoRotationSpeed;
     }
 
     private void doInit()
@@ -87,6 +89,9 @@ public class EnemyScript : MonoBehaviour
         
         //攻撃判定を有効にする
         m_attackCollider.enabled = true;
+
+        //ナビメッシュエージェントの自動回転を止める
+        m_agent.angularSpeed = 0;
     }
 
   
@@ -109,6 +114,8 @@ public class EnemyScript : MonoBehaviour
             m_animator.SetBool("AttackFlag", false);
             //攻撃判定を無効にする
             m_attackCollider.enabled = false;
+            //ナビメッシュエージェントの自動回転を再開する
+            m_agent.angularSpeed = 120;
             Debug.Log("攻撃終了");
         }
         //プレイヤーが離れていると待機状態
@@ -117,8 +124,19 @@ public class EnemyScript : MonoBehaviour
             //ステータスを待機状態に変更
             m_enemyStatus = EnemyStatus.Idle;
             m_animator.SetBool("AttackFlag", false);
+            //攻撃判定を無効化
+            m_attackCollider.enabled = false;
+            //ナビメッシュエージェントの自動回転を再開する
+            m_agent.angularSpeed = 120;
             Debug.Log("攻撃終了");
         }
+    }
+
+    //被ダメージモーションが終わった時にアニメーションイベントで呼び出される処理
+    private void DamageStateEnd()
+    {
+        m_enemyStatus = EnemyStatus.Idle;
+        m_animator.SetBool("DamageFlag", false);
     }
 
     private void doDamage()
@@ -162,6 +180,12 @@ public class EnemyScript : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    //IDamageableから継承？した攻撃された時に動く関数
+    public void ReceivedDamage(int value)
+    {
+        m_enemyStatus = EnemyStatus.Damage;
     }
 
     // Update is called once per frame

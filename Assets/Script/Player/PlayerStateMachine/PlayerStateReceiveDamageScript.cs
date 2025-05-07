@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
-//プレイヤーの通常攻撃スクリプト
-public class PlayerStateNormalAttackScript : IPlayerStateScript
+public class PlayerStateReceiveDamageScript : IPlayerStateScript
 {
     private GameObject _player;  //プレイヤー
     private PlayerScript _playerScript; //プレイヤーのスクリプト
     private Animator _animator;
 
-    public PlayerStateNormalAttackScript(GameObject InsertPlayer)
+    public PlayerStateReceiveDamageScript(GameObject InsertPlayer)
     {
         _player = InsertPlayer;
         _playerScript = _player.GetComponent<PlayerScript>();
@@ -19,14 +17,14 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
 
     public override void Start()
     {
-        Debug.Log("攻撃");
-        _animator.CrossFadeInFixedTime("NormalAttack", 0.3f);
-        _playerScript.GetSwordCollider().enabled = true;
+        _animator.CrossFadeInFixedTime("ReceivedDamage", 0.3f);
+        Debug.Log("被ダメージ");
+
     }
 
     public override void End()
     {
-        _playerScript.GetSwordCollider().enabled = false;
+
     }
 
     public override void Update()
@@ -34,10 +32,9 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
         StateUpdate();
     }
 
-
     void StateUpdate()
     {
-        if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             _playerScript.SetPlayerState(new PlayerStateIdleScript(_player));
         }
