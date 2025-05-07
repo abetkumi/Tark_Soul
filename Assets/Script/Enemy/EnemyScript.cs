@@ -14,12 +14,12 @@ enum EnemyStatus
 
 public class EnemyScript : MonoBehaviour
 {
-    //プレイヤーの変数
+    //プレイヤー用変数
     [SerializeField] GameObject m_playerObject;
     PlayerScript m_playerScript;
     Vector3 m_playerPosition;
 
-    //Enemyステータス用変数
+    //エネミー用変数
     EnemyStatus m_enemyStatus = EnemyStatus.Idle;
     
     //アニメーション用変数
@@ -38,6 +38,7 @@ public class EnemyScript : MonoBehaviour
         m_enemyAttackScript = GetComponent<EnemyAttackScript>();
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
+        doInit();
     }
 
     private void doInit()
@@ -79,7 +80,7 @@ public class EnemyScript : MonoBehaviour
 
     private void doAttack()
     {
-        ////攻撃中プレイヤーの方向を向く
+        ////攻撃中プレイヤーの方向を向く(この方法だとアタック中全部プレイヤーの方へ向く)
         //Vector3 direction = m_playerPosition - transform.position;  // プレイヤー方向のベクトル
         //direction.y = 0;
         //Quaternion m_targetRotation = Quaternion.LookRotation(direction);
