@@ -9,7 +9,12 @@ public class HitPlayerAttackScript : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("プレイヤーの攻撃がヒット");
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+
+            if(damageable != null)
+            {
+                damageable.ReceivedDamage(1);
+            }
         }
     }
 }
