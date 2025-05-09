@@ -235,7 +235,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Die
-  m_Speed: 1
+  m_Speed: 0.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4280906532148553570}
@@ -407,7 +407,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hit
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2351936623125408401}
@@ -860,7 +860,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hit2
-  m_Speed: 1
+  m_Speed: 0.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6775055485701862055}
@@ -1061,7 +1061,7 @@ AnimatorStateMachine:
     m_Position: {x: 260, y: 540, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2573024078950161114}
-    m_Position: {x: 550, y: 380, z: 0}
+    m_Position: {x: 630, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5439396353022816703}
     m_Position: {x: 550, y: 430, z: 0}
@@ -1166,7 +1166,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SleepStart
-  m_Speed: 1
+  m_Speed: 0.1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 31179878072276898}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Cysharp.Threading.Tasks;
 
 enum BOSSStatus
 {
@@ -22,7 +23,13 @@ public class BOSSEnemyScript : MonoBehaviour
     BOSSStatus m_bossStatus;
     private Animator m_animator;
     private NavMeshAgent m_agent;
+    private float m_searchArea = 30.0f;
+    private float m_attackArea = 3.0f;
+    private float m_speed = 0.7f;
     public float m_bossHP = 100.0f;
+
+    //霧用変数
+    [SerializeField] GameObject m_mistObject;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +49,7 @@ public class BOSSEnemyScript : MonoBehaviour
     void doSearch()
     {
         //プレイヤーが近づくと追跡ステートに移行する
-        if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= 10.0f)
+        if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_searchArea)
         {
             m_bossStatus = BOSSStatus.Walk;
         }
@@ -50,7 +57,27 @@ public class BOSSEnemyScript : MonoBehaviour
 
     void doMove()
     {
+        //ナビメッシュのターゲットをプレイヤーの位置に変更する
+        m_agent.SetDestination(m_playerObject.transform.position);
+        m_animator.SetFloat("Walk", m_speed);
 
+        //攻撃ステートに移行する
+        if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
+        {
+            m_bossStatus = BOSSStatus.Attack;
+            m_agent.SetDestination(transform.position);
+            m_animator.SetTrigger("Hit2");
+            m_animator.SetFloat("Walk", 0.0f);
+        }
+
+        //待機ステートに移行する
+        if (Vector3.Distance(transform.position, m_playerObject.transform.position) > m_searchArea)
+        {
+            m_bossStatus = BOSSStatus.Idle;
+            m_agent.SetDestination(transform.position);
+            m_animator.SetFloat("Walk", 0.0f);
+
+        }
     }
 
     void doAttack()
@@ -58,17 +85,46 @@ public class BOSSEnemyScript : MonoBehaviour
 
     }
 
+    private async void AttackEnd()
+    {
+
+        await UniTask.Delay(200);
+     
+        //攻撃ステートに移行する
+        if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
+        {
+            m_bossStatus = BOSSStatus.Attack;
+            m_agent.SetDestination(transform.position);
+            m_animator.SetTrigger("Hit2");
+            m_animator.SetFloat("Walk", 0.0f);
+        }
+        //待機ステートに移行する
+        else if (Vector3.Distance(transform.position, m_playerObject.transform.position) > m_searchArea)
+        {
+            m_bossStatus = BOSSStatus.Idle;
+            m_agent.SetDestination(transform.position);
+        }
+        else
+        {
+            m_bossStatus = BOSSStatus.Walk;
+        }
+        Debug.Log("ボスアタックエンド");
+    }
+
     void doDamage()
     {
-        if (m_BOSSHP <= 0.0f)
+        if (m_bossHP <= 0.0f)
         {
             m_bossStatus = BOSSStatus.Death;
         }
     }
 
-    void doDeath()
+    async void doDeath()
     {
         m_animator.SetTrigger("Die");
+
+        await UniTask.Delay(1000);
+        Destroy(m_mistObject);
     }
 
     void doAnimation()

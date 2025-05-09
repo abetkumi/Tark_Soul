@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemSwitchScript : MonoBehaviour
 {
+    //開閉するゲート用変数
     [SerializeField] GameObject Gate_right;
     [SerializeField] GameObject Gate_left;
 
@@ -19,10 +20,12 @@ public class ItemSwitchScript : MonoBehaviour
         m_animator_Left = Gate_left.GetComponent<Animator>();
     }
 
+    //プレイヤーがレバーの範囲に入ると
     public void OnTriggerStay(Collider col)
     {
-        if(col.tag=="Player")
+        if(col.tag == "Player")
         {
+            //アクションボタンでゲートとレバーのアニメーションを再生する
             if (Input.GetButton("Action"))
             {
                 m_animator_Lever.SetTrigger("Gate Open");
@@ -30,11 +33,5 @@ public class ItemSwitchScript : MonoBehaviour
                 m_animator_Left.SetTrigger("Gate Open");
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
