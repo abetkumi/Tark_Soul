@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour, IDamageable
 {
     [SerializeField] float PlayerWalkSpeed;     //プレイヤーの歩く速度
     [SerializeField] float PlayerSprintSpeed;   //プレイヤーの走る速度
+    [SerializeField] float PlayerRollingSpeed;  //ロリーング回避の速度
 
     private Animator _animator = null;   //アニメーター
     //private float vert, horiz;  //軸入力用変数
@@ -35,6 +36,10 @@ public class PlayerScript : MonoBehaviour, IDamageable
         return PlayerSprintSpeed;
     }
 
+    public float GetRollingSpeed()
+    {
+        return PlayerRollingSpeed;
+    }
     public CapsuleCollider GetSwordCollider()
     {
         return _swordCollider;
@@ -65,4 +70,8 @@ public class PlayerScript : MonoBehaviour, IDamageable
         SetPlayerState(new PlayerStateReceiveDamageScript(this.gameObject));
     }
     
+    public void AnimationEvent(string eventName)
+    {
+        _playerStateManager.AnimationEvent(eventName);
+    }
 }

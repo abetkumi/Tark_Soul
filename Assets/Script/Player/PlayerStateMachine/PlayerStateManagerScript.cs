@@ -26,6 +26,12 @@ public class PlayerStateManagerScript
         _playerState.Start();
     }
 
+    //アニメーションイベントをステートに伝えるための関数
+    public void AnimationEvent(string EventName)
+    {
+        _playerState.AnimationEvent(EventName);
+    }
+
     //ステート処理
     public void Update()
     {

@@ -10,4 +10,6 @@ public class IPlayerStateScript
     public virtual void End() { }
 
     public virtual void Update() { }
+
+    public virtual void AnimationEvent(string EventName) { }
 }

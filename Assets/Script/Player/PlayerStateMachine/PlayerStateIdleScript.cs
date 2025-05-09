@@ -36,13 +36,18 @@ public class PlayerStateIdleScript : IPlayerStateScript
 
     void StateUpdate()
     {
-        //左クリックしたら
+        //左クリックしたら攻撃
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("左クリック");
             _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
         }
 
+        //右クリックしたら
+        if(Input.GetMouseButtonDown(1)) 
+        {
+            _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
+        
+        }
 
         //スティックの入力があったら
         if(Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
