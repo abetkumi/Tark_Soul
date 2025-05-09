@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerWalkSpeed: 3
   PlayerSprintSpeed: 10
+  PlayerRollingSpeed: 10
 --- !u!143 &6318450380527549075
 CharacterController:
   m_ObjectHideFlags: 0
