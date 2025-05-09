@@ -6635,44 +6635,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 184605707}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &185130182
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaterDepthMap
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &190970806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11514,7 +11476,7 @@ Transform:
   m_GameObject: {fileID: 315647202}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.758617, y: 21.72, z: -76.19594}
+  m_LocalPosition: {x: 11.045, y: 8.096, z: 31.099987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15183,7 +15145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398198302}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.46529594, y: 0.05606943, z: -0.029549638, w: 0.88288325}
+  m_LocalRotation: {x: 0.3296779, y: -0.625548, z: 0.32967526, w: 0.62555295}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39171,8 +39133,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 973352068}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5634682, y: 0.052311055, z: -0.035784286, w: 0.823703}
-  m_LocalPosition: {x: 36.758617, y: 21.72, z: -76.19594}
+  m_LocalRotation: {x: 0.39923632, y: -0.58361715, z: 0.39923328, w: 0.5836217}
+  m_LocalPosition: {x: 11.045, y: 8.096, z: 31.099987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -49505,7 +49467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227965293}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5634683, y: 0.05231107, z: -0.035784293, w: 0.823703}
+  m_LocalRotation: {x: 0.39923632, y: -0.58361715, z: 0.3992333, w: 0.58362156}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -52119,7 +52081,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315104463}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4812362, y: 0.055524144, z: -0.030561967, w: 0.8742968}
+  m_LocalRotation: {x: 0.34097204, y: -0.61946434, z: 0.34096947, w: 0.61946905}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -56859,6 +56821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerObject: {fileID: 1331653610}
   m_bossHP: 100
+  m_mistObject: {fileID: 0}
 --- !u!4 &1449701543 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4509382226077508, guid: 3dbf7e32b433b4b4f9ca4247821b0872,
@@ -63158,17 +63121,17 @@ PrefabInstance:
     - target: {fileID: 6439783546432371088, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 36.98
+      value: 9.295
       objectReference: {fileID: 0}
     - target: {fileID: 6439783546432371088, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.22
+      value: 3.596
       objectReference: {fileID: 0}
     - target: {fileID: 6439783546432371088, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -74.46
+      value: 31.1
       objectReference: {fileID: 0}
     - target: {fileID: 6439783546432371088, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
@@ -73225,6 +73188,44 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1898893830}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &1900250390
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDepthMap
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &1900368581
 PrefabInstance:
   m_ObjectHideFlags: 0
