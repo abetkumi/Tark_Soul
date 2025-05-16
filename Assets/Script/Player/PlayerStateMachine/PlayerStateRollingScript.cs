@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//プレイヤーのローリングステート用スクリプト、アニメーションイベントでステートを抜ける
 public class PlayerStateRollingScript : IPlayerStateScript
 {
     private GameObject _player;  //プレイヤー
@@ -29,6 +30,8 @@ public class PlayerStateRollingScript : IPlayerStateScript
         _roringVec = _player.transform.forward;
 
         _characterController.detectCollisions = false;
+
+
     }
 
     public override void End()
@@ -47,22 +50,18 @@ public class PlayerStateRollingScript : IPlayerStateScript
         {
             _characterController.Move(_roringVec * _playerScript.GetRollingSpeed() * Time.deltaTime);
         }
-        
-
-        StateUpdate();
     }
 
     public override void AnimationEvent(string EventName)
     {
+        Debug.Log(EventName);
+
         if(EventName == "MoveEnd")
         {
             _decelerationFlag = true;
         }
-    }
 
-    void StateUpdate()
-    {
-        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        if(EventName == "AnimationEnd")
         {
             _playerScript.SetPlayerState(new PlayerStateIdleScript(_player));
         }

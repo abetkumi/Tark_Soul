@@ -31,13 +31,12 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
 
     public override void Update()
     {
-        StateUpdate();
+
     }
 
-
-    void StateUpdate()
+    public override void AnimationEvent(string EventName)
     {
-        if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        if (EventName == "AnimationEnd")
         {
             _playerScript.SetPlayerState(new PlayerStateIdleScript(_player));
         }
