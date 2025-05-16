@@ -40,19 +40,24 @@ public class PlayerStateIdleScript : IPlayerStateScript
         if (Input.GetMouseButtonDown(0))
         {
             _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
+
+            return;
         }
 
         //右クリックしたら
         if(Input.GetMouseButtonDown(1)) 
         {
             _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
-        
+
+            return;
         }
 
         //スティックの入力があったら
         if(Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
             _playerScript.SetPlayerState(new PlayerStateWalkScript(_player));
+
+            return;
         }
     }
 }
