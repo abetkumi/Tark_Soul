@@ -9,6 +9,7 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
     private GameObject _player;  //プレイヤー
     private PlayerScript _playerScript; //プレイヤーのスクリプト
     private Animator _animator;
+    private bool _isContinuousAttack = false;   //連続攻撃フラグ
 
     public PlayerStateNormalAttackScript(GameObject InsertPlayer)
     {
@@ -31,14 +32,34 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
 
     public override void Update()
     {
-
+        //左クリックしたら連続攻撃予約
+        if (Input.GetMouseButtonDown(0))
+        {
+            _isContinuousAttack = true;
+        }
     }
 
     public override void AnimationEvent(string EventName)
     {
+        
+
         if (EventName == "AnimationEnd")
         {
+            Debug.Log("攻撃終了");
+
             _playerScript.SetPlayerState(new PlayerStateIdleScript(_player));
+        }
+
+        if(EventName == "AttackContinuationPoint")
+        {
+            Debug.Log("攻撃継続");
+
+            if (_isContinuousAttack)
+            {
+                _animator.CrossFadeInFixedTime("attack", 0.3f);
+
+                _isContinuousAttack = false;
+            }
         }
     }
 
