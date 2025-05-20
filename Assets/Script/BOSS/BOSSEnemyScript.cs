@@ -27,6 +27,7 @@ public class BOSSEnemyScript : MonoBehaviour
     private float m_attackArea = 3.0f;
     private float m_speed = 0.7f;
     public float m_bossHP = 100.0f;
+    [SerializeField] SphereCollider m_attackCollider;
 
     //霧用変数
     [SerializeField] GameObject m_mistObject;
@@ -66,7 +67,7 @@ public class BOSSEnemyScript : MonoBehaviour
         {
             m_bossStatus = BOSSStatus.Attack;
             m_agent.SetDestination(transform.position);
-            m_animator.SetTrigger("Hit2");
+            m_animator.SetTrigger("Attack");
             m_animator.SetFloat("Walk", 0.0f);
         }
 
@@ -82,7 +83,7 @@ public class BOSSEnemyScript : MonoBehaviour
 
     void doAttack()
     {
-
+        m_attackCollider.enabled = true;
     }
 
     private async void AttackEnd()
@@ -95,7 +96,7 @@ public class BOSSEnemyScript : MonoBehaviour
         {
             m_bossStatus = BOSSStatus.Attack;
             m_agent.SetDestination(transform.position);
-            m_animator.SetTrigger("Hit2");
+            m_animator.SetTrigger("Attack");
             m_animator.SetFloat("Walk", 0.0f);
         }
         //待機ステートに移行する
@@ -108,6 +109,7 @@ public class BOSSEnemyScript : MonoBehaviour
         {
             m_bossStatus = BOSSStatus.Walk;
         }
+        m_attackCollider.enabled = false;
         Debug.Log("ボスアタックエンド");
     }
 
@@ -121,7 +123,7 @@ public class BOSSEnemyScript : MonoBehaviour
 
     async void doDeath()
     {
-        m_animator.SetTrigger("Die");
+        m_animator.SetTrigger("Death");
 
         await UniTask.Delay(1000);
         Destroy(m_mistObject);
