@@ -19,6 +19,7 @@ public class EnemyAttackScript : MonoBehaviour
 
             if(damageable != null )
             {
+                //ˆø”‚Åƒ_ƒ[ƒW—Ê‚ğİ’è‚·‚é
                 damageable.ReceivedDamage(1);
             }
         }
