@@ -12,15 +12,19 @@ public class PlayerHPBar : MonoBehaviour
 
     private Slider _hpSlider;
 
+
     // Start is called before the first frame update
     void Start()
     {
-        _hpSlider = GetComponent<Slider>();
-        
+ 
     }
 
     public void Init(int MaxHP)
     {
+        Debug.Log(MaxHP);
+
+        _hpSlider = GetComponent<Slider>();
+
         _MaxHP = MaxHP;
         _hpSlider.maxValue = _MaxHP;  //スライダーの最大値を設定
         _currentHP = _MaxHP;

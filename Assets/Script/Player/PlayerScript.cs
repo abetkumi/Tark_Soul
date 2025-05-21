@@ -90,6 +90,8 @@ public class PlayerScript : MonoBehaviour, IDamageable
 
         _playerHPBarScript.HPUpdate(_PlayerHP);
 
+        Debug.Log(_PlayerHP);
+
         if (_PlayerHP <= 0)
         {
             Debug.Log("プレイヤーが死んだ！この人でなし！");
