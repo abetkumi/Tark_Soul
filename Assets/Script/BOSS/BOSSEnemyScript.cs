@@ -66,7 +66,7 @@ public class BOSSEnemyScript : MonoBehaviour
         if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
         {
             m_bossStatus = BOSSStatus.Attack;
-            m_agent.SetDestination(transform.position);
+            m_agent.enabled = false;
             m_animator.SetTrigger("Attack");
             m_animator.SetFloat("Walk", 0.0f);
         }
@@ -96,17 +96,20 @@ public class BOSSEnemyScript : MonoBehaviour
         {
             m_bossStatus = BOSSStatus.Attack;
             m_agent.SetDestination(transform.position);
+            m_agent.enabled = false;
             m_animator.SetTrigger("Attack");
             m_animator.SetFloat("Walk", 0.0f);
         }
         //待機ステートに移行する
         else if (Vector3.Distance(transform.position, m_playerObject.transform.position) > m_searchArea)
         {
+            m_agent.enabled = true;
             m_bossStatus = BOSSStatus.Idle;
             m_agent.SetDestination(transform.position);
         }
         else
         {
+            m_agent.enabled = true;
             m_bossStatus = BOSSStatus.Walk;
         }
         m_attackCollider.enabled = false;
