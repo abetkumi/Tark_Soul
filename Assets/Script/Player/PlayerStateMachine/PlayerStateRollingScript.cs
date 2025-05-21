@@ -44,7 +44,7 @@ public class PlayerStateRollingScript : IPlayerStateScript
     {
         if(_decelerationFlag)
         {
-            _characterController.Move(_roringVec * _playerScript.GetRollingSpeed() * Time.deltaTime * (1.1f - _animator.GetCurrentAnimatorStateInfo(0).normalizedTime));
+            _characterController.Move(_roringVec * _playerScript.GetRollingSpeed() * Time.deltaTime * (1.5f - _animator.GetCurrentAnimatorStateInfo(0).normalizedTime));
         }
         else
         {

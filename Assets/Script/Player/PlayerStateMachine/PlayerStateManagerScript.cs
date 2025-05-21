@@ -18,6 +18,7 @@ public class PlayerStateManagerScript
         _playerState.Start();
     }
 
+    //プレイヤーステートを設定
     public void SetPlayerState(IPlayerStateScript state)
     {
         _playerState.End();
@@ -25,6 +26,13 @@ public class PlayerStateManagerScript
         _playerState = state;
         _playerState.Start();
     }
+
+    //現在のプレイヤーステートを取得
+    public IPlayerStateScript GetPlayerState()
+    {
+        return _playerState;
+    }
+
 
     //アニメーションイベントをステートに伝えるための関数
     public void AnimationEvent(string EventName)
