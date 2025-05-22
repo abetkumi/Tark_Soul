@@ -32,6 +32,10 @@ public class EnemyScript : MonoBehaviour, IDamageable
     EnemyAttackScript m_enemyAttackScript;
     public float m_rotationSpeed = 5.0f;
 
+    //HP
+    [SerializeField] int StartHP;
+    private int m_enemyCurrentHP;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +44,8 @@ public class EnemyScript : MonoBehaviour, IDamageable
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
         m_agent.angularSpeed = autoRotationSpeed;
+
+        m_enemyCurrentHP = StartHP;
     }
 
     private void doInit()
@@ -98,6 +104,11 @@ public class EnemyScript : MonoBehaviour, IDamageable
 
     private void AttackEnd()
     {
+        //if (m_enemyStatus == EnemyStatus.Death)
+        //{
+        //    return;
+        //}
+
         //プレイヤーが攻撃範囲内にいると再び攻撃
         if (Vector3.Distance(transform.position, m_playerPosition) <= 3.0f)
         {
@@ -135,18 +146,23 @@ public class EnemyScript : MonoBehaviour, IDamageable
     //被ダメージモーションが終わった時にアニメーションイベントで呼び出される処理
     private void DamageStateEnd()
     {
+        if(m_enemyStatus == EnemyStatus.Death)
+        {
+            return;
+        }
+
         m_enemyStatus = EnemyStatus.Idle;
         m_animator.SetBool("DamageFlag", false);
     }
 
     private void doDamage()
     {
-        Debug.Log("敵がダメージを受けた");
+        
     }
 
     private void doDeath()
     {
-        Debug.Log("敵が4んだ");
+        //Debug.Log("敵が4んだ");
     }
 
     private void doAnimation()
@@ -185,7 +201,39 @@ public class EnemyScript : MonoBehaviour, IDamageable
     //IDamageableから継承？した攻撃された時に動く関数
     public void ReceivedDamage(int value)
     {
-        m_enemyStatus = EnemyStatus.Damage;
+        Debug.Log("敵がダメージを受けた");
+
+        //攻撃判定をオフに
+        m_attackCollider.enabled = false;
+
+        //HPを減らす
+        m_enemyCurrentHP -= value;
+
+        switch (m_enemyStatus)
+        {
+            case EnemyStatus.Damage:
+                //すでにダメージステートならアニメーションを再生しなおし
+                m_animator.Play("Damage", 0, 0);
+                break;
+
+            case EnemyStatus.Death:
+                //死亡しているなら処理を飛ばす
+                return;
+                break;
+
+            default:
+                //ステートをダメージに
+                m_enemyStatus = EnemyStatus.Damage;
+                break;
+        }
+
+        //HPが0以下ならデス
+        if (m_enemyCurrentHP <= 0)
+        {
+            m_enemyStatus = EnemyStatus.Death;
+
+            return;
+        }
     }
 
     // Update is called once per frame
