@@ -22,7 +22,7 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
     {
         Debug.Log("çUåÇ");
         _animator.CrossFadeInFixedTime("NormalAttack", 0.3f);
-        _playerScript.GetSwordCollider().enabled = true;
+        //_playerScript.GetSwordCollider().enabled = true;
     }
 
     public override void End()
@@ -41,7 +41,15 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
 
     public override void AnimationEvent(string EventName)
     {
-        
+        if(EventName == "AttackStart")
+        {
+            _playerScript.GetSwordCollider().enabled = true;
+        }
+
+        if(EventName == "AttackEnd")
+        {
+            _playerScript.GetSwordCollider().enabled = false;
+        }
 
         if (EventName == "AnimationEnd")
         {
@@ -52,10 +60,11 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
 
         if(EventName == "AttackContinuationPoint")
         {
-            Debug.Log("çUåÇåpë±");
 
             if (_isContinuousAttack)
             {
+                Debug.Log("çUåÇåpë±");
+
                 _animator.CrossFadeInFixedTime("attack", 0.3f);
 
                 _isContinuousAttack = false;
