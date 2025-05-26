@@ -13,7 +13,7 @@ enum BOSSStatus
     Death,
 }
 
-public class BOSSEnemyScript : MonoBehaviour
+public class BOSSEnemyScript : MonoBehaviour, IDamageable
 {
     //プレイヤー用変数
     [SerializeField] GameObject m_playerObject;
@@ -23,11 +23,16 @@ public class BOSSEnemyScript : MonoBehaviour
     BOSSStatus m_bossStatus;
     private Animator m_animator;
     private NavMeshAgent m_agent;
+    //ボスのステート変更用変数
     private float m_searchArea = 30.0f;
     private float m_attackArea = 3.0f;
+    public float m_attackAngleThreshold = 45.0f; //角度の閾値（度）
     private float m_speed = 0.7f;
-    public float m_bossHP = 100.0f;
     [SerializeField] SphereCollider m_attackCollider;
+    //ボスのHP管理用変数
+    public int m_bossHP = 100;
+    BOSSHPBarScript m_bossHPScript;
+    [SerializeField] GameObject m_bossHPObject;
 
     //霧用変数
     [SerializeField] GameObject m_mistObject;
@@ -38,6 +43,7 @@ public class BOSSEnemyScript : MonoBehaviour
         m_playerScript = m_playerObject.GetComponent<PlayerScript>();
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
+        m_bossHPScript = m_bossHPObject.GetComponent<BOSSHPBarScript>();
         doInit();
     }
 
@@ -47,23 +53,29 @@ public class BOSSEnemyScript : MonoBehaviour
         m_agent.SetDestination(transform.position);
     }
 
-    void doSearch()
+    //
+    public void doSearch()
     {
-        //プレイヤーが近づくと追跡ステートに移行する
-        if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_searchArea)
-        {
-            m_bossStatus = BOSSStatus.Walk;
-        }
+        m_bossStatus = BOSSStatus.Walk;
     }
 
     void doMove()
     {
+        Vector3 m_directionToBOSS = (transform.position - m_playerObject.transform.position).normalized;
+        // プレイヤーの正面ベクトルとエネミーへの方向ベクトルの角度を取得
+        float angleFromPlayer = Vector3.Angle(m_playerObject.transform.forward, m_directionToBOSS);
+
+        // エネミーがプレイヤーの方向を向いているか
+        float angleFromEnemy = Vector3.Angle(transform.forward, (m_playerObject.transform.position - transform.position).normalized);
+
+        float distance = Vector3.Distance(m_playerObject.transform.position, transform.position);
+
         //ナビメッシュのターゲットをプレイヤーの位置に変更する
         m_agent.SetDestination(m_playerObject.transform.position);
         m_animator.SetFloat("Walk", m_speed);
 
         //攻撃ステートに移行する
-        if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
+        if (angleFromEnemy < m_attackAngleThreshold && Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
         {
             m_bossStatus = BOSSStatus.Attack;
             m_agent.enabled = false;
@@ -90,37 +102,32 @@ public class BOSSEnemyScript : MonoBehaviour
     {
 
         await UniTask.Delay(200);
-     
-        //攻撃ステートに移行する
-        if (Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
-        {
-            m_bossStatus = BOSSStatus.Attack;
-            m_agent.SetDestination(transform.position);
-            m_agent.enabled = false;
-            m_animator.SetTrigger("Attack");
-            m_animator.SetFloat("Walk", 0.0f);
-        }
+ 
         //待機ステートに移行する
-        else if (Vector3.Distance(transform.position, m_playerObject.transform.position) > m_searchArea)
-        {
-            m_agent.enabled = true;
-            m_bossStatus = BOSSStatus.Idle;
-            m_agent.SetDestination(transform.position);
-        }
-        else
-        {
-            m_agent.enabled = true;
-            m_bossStatus = BOSSStatus.Walk;
-        }
+        m_agent.enabled = true;
+        m_bossStatus = BOSSStatus.Walk;
         m_attackCollider.enabled = false;
         Debug.Log("ボスアタックエンド");
     }
 
+    public void ReceivedDamage(int value)
+    {
+        m_bossStatus = BOSSStatus.Damage;
+        m_bossHP -= value;
+
+        m_bossHPScript.HPUpdate(m_bossHP);
+    }
+
     void doDamage()
     {
+        
         if (m_bossHP <= 0.0f)
         {
             m_bossStatus = BOSSStatus.Death;
+        }
+        else
+        {
+            m_bossStatus = BOSSStatus.Walk;
         }
     }
 
@@ -137,7 +144,6 @@ public class BOSSEnemyScript : MonoBehaviour
         switch (m_bossStatus)
         {
             case BOSSStatus.Idle:
-                doSearch();
                 break;
             case BOSSStatus.Walk:
                 doMove();

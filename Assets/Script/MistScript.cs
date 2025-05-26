@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class MistScript : MonoBehaviour
 {
     //侵入可能エリア
     [SerializeField] BoxCollider m_collider;
+    [SerializeField] GameObject m_BOSSHPBarObject;
+    [SerializeField] GameObject m_bossObj;
 
     //プレイヤーが侵入可能エリアに入ると
     public void OnTriggerStay(Collider other)
@@ -16,17 +19,22 @@ public class MistScript : MonoBehaviour
             if (Input.GetButton("Action"))
             {
                 m_collider.enabled = false;
+                BOSSEnemyScript m_boss = m_bossObj.GetComponent<BOSSEnemyScript>();
+                m_boss.doSearch();
             }   
         }
     }
 
     //侵入可能エリアからプレイヤーが外に出ると
-    private void OnTriggerExit(Collider other)
+    async private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
             //当たり判定を有効にする
             m_collider.enabled = true;
+
+            await UniTask.Delay(1000);
+            m_BOSSHPBarObject.SetActive(true);
         }
     }
 }
