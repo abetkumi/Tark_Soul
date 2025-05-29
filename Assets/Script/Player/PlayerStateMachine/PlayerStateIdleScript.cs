@@ -52,9 +52,16 @@ public class PlayerStateIdleScript : IPlayerStateScript
             return;
         }
 
+
         //スティックの入力があったら
         if(Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
+            if(Input.GetButton("Guard"))
+            {
+                _playerScript.SetPlayerState(new PlayerStateGuard(_player));
+                return;
+            }
+
             _playerScript.SetPlayerState(new PlayerStateWalkScript(_player));
 
             return;

@@ -69,6 +69,12 @@ public class PlayerStateWalkScript : IPlayerStateScript
 
             return;
         }
+
+        if (Input.GetButton("Guard"))
+        {
+            _playerScript.SetPlayerState(new PlayerStateGuard(_player));
+            return;
+        }
     }
 
     void Move()
