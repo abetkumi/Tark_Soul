@@ -30,7 +30,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     private float m_speed = 0.7f;
     [SerializeField] SphereCollider m_attackCollider;
     //ボスのHP管理用変数
-    public int m_bossHP = 100;
+    public int m_bossHP = 1;
     BOSSHPBarScript m_bossHPScript;
     [SerializeField] GameObject m_bossHPObject;
 
@@ -95,27 +95,48 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
     void doAttack()
     {
+        
+    }
+
+    void AttackStart()
+    {
         m_attackCollider.enabled = true;
     }
 
     private async void AttackEnd()
     {
 
-        await UniTask.Delay(200);
- 
-        //待機ステートに移行する
-        m_agent.enabled = true;
-        m_bossStatus = BOSSStatus.Walk;
         m_attackCollider.enabled = false;
+        await UniTask.Delay(200);
+
+        //待機ステートに移行する
+        if (m_bossStatus != BOSSStatus.Death)
+        {
+            m_agent.enabled = true;
+            m_bossStatus = BOSSStatus.Walk;
+        }
         Debug.Log("ボスアタックエンド");
     }
 
     public void ReceivedDamage(int value)
     {
-        m_bossStatus = BOSSStatus.Damage;
+        Debug.Log("敵がダメージを受けた");
+
+        //攻撃判定をオフに
+        m_attackCollider.enabled = false;
+
+        //HPを減らす
         m_bossHP -= value;
 
         m_bossHPScript.HPUpdate(m_bossHP);
+
+        //HPが0以下ならデス
+        if (m_bossHP <= 0)
+        {
+            m_bossStatus = BOSSStatus.Death;
+
+            return;
+        }
     }
 
     void doDamage()
@@ -137,6 +158,9 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
         await UniTask.Delay(1000);
         Destroy(m_mistObject);
+        await UniTask.Delay(5000);
+        Destroy(this.gameObject);
+        Destroy(m_bossHPObject);
     }
 
     void doAnimation()
