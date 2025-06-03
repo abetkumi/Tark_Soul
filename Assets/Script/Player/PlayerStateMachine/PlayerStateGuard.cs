@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,6 @@ public class PlayerStateGuard : IPlayerStateScript
 
     public override void End()
     {
-        _animator.SetBool("LowerWalk", false);
 
     }
 
@@ -63,40 +63,45 @@ public class PlayerStateGuard : IPlayerStateScript
     {
         //移動方向によってアニメーションを変える
 
-        if (Vector3.Dot(_player.transform.forward, _moveForward) > 0)
-        {
+        float forwardVecDot = Vector3.Dot(_player.transform.forward, _moveForward);
 
-            _animator.SetBool("LowerWalk", true);
+        _animator.SetBool("back", false);
+        _animator.SetBool("forward", false);
+        _animator.SetBool("right", false);
+        _animator.SetBool("left", false);
+
+
+        if (forwardVecDot >= 0.5f)
+        {
+            _animator.SetBool("forward", true);
+            return;
+
 
         }
-        else
+        else if(forwardVecDot <= -0.5f)
         {
-            //_animator.CrossFadeInFixedTime("BackGuardWalk", 0.3f);
+            _animator.SetBool("back", true);
+            return;
 
-            _animator.SetBool("LowerWalk", false);
         }
 
+        float rightVecDot = Vector3.Dot(_player.transform.right, _moveForward);
 
-        //プレイヤー正面ベクトルを右に90度回したベクトルを用意する
-        Quaternion rotation = Quaternion.AngleAxis(90, Vector3.up);
-        Vector3 right = rotation * _player.transform.forward;
-
-        right.z = 0;
-
-
-        if(Vector3.Dot(right, _moveForward) > 0)
+        if (rightVecDot >= 0.5f)
         {
-            //右
-            Debug.Log("右");
-        }
-        else
-        {
-            //左
-            Debug.Log("左");
-        }
-        
+            _animator.SetBool("right", true);
+            return;
 
-        
+
+        }
+        else if (rightVecDot <= -0.5f)
+        {
+            _animator.SetBool("left", true);
+            return;
+
+
+        }
+
     }
 
     void StateUpdate()
