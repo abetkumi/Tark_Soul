@@ -34,7 +34,7 @@ public class Title : MonoBehaviour
     }
 
     // ボタンが押された場合、今回呼び出される関数
-    async public void OnClickStartButton(string sceneName)
+    async public void OnClickStartButton()
     {
         if (!m_startLoading)
         {
@@ -43,7 +43,7 @@ public class Title : MonoBehaviour
             m_focusButton_Start.Select();
             await UniTask.Delay(3000);
             //メインゲームシーンに移動する
-        
+            await SceneManager.LoadSceneAsync("MainGame").ToUniTask();
             Debug.Log("ゲームスタート!");  // ログを出力
         }
 
