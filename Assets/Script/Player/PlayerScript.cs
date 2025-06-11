@@ -1,3 +1,5 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,9 +26,10 @@ public class PlayerScript : MonoBehaviour, IDamageable
 
     private PlayerStateManagerScript _playerStateManager;   //プレイヤーステートマネージャー
     private CapsuleCollider _swordCollider;    //プレイヤーの持っている剣に付けられたコライダー
+    private BoxCollider _guardCollider; //プレイヤーの前方に設置されているガード用のコライダー
     private int _PlayerHP;
 
-
+    private bool _isInvincible = false; //無敵フラグ
 
 
     // Start is called before the first frame update
@@ -36,6 +39,7 @@ public class PlayerScript : MonoBehaviour, IDamageable
         _characterController = GetComponent<CharacterController>();
         _playerStateManager = new PlayerStateManagerScript(this.gameObject);
         _swordCollider = GameObject.Find("mixamorig:Sword_joint").GetComponent<CapsuleCollider>();
+        _guardCollider = GameObject.Find("GuardCollision").GetComponent<BoxCollider>();
         _PlayerHP = PlayerStartHP;
         _playerHPBarScript = PlayerHPUI.GetComponent<PlayerHPBar>();
         _playerHPBarScript.Init(PlayerStartHP);
@@ -57,6 +61,16 @@ public class PlayerScript : MonoBehaviour, IDamageable
     public CapsuleCollider GetSwordCollider()
     {
         return _swordCollider;
+    }
+    public BoxCollider GetGuardCollider()
+    {
+        return _guardCollider;
+    }
+
+    //無敵中か
+    public bool IsInvincible()
+    {
+        return _isInvincible;
     }
 
     // Update is called once per frame
@@ -80,11 +94,20 @@ public class PlayerScript : MonoBehaviour, IDamageable
     //IDamageableから継承？した被ダメージ処理
     public void ReceivedDamage(int value)
     {
+        //無敵中なら処理を飛ばす
+        if(_isInvincible)
+        {
+            return;
+        }
+
         //死亡しているなら処理を飛ばす
         if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
         {
             return;
         }
+
+        //無敵時間
+        StartInvincibleTime(2f);
 
         _PlayerHP -= value;
 
@@ -103,6 +126,19 @@ public class PlayerScript : MonoBehaviour, IDamageable
         SetPlayerState(new PlayerStateReceiveDamageScript(this.gameObject));
     }
     
+    //無敵時間を設定
+    //引数で何秒無敵にするか指定
+    public async void StartInvincibleTime(float time)
+    {
+        Debug.Log("無敵時間開始");
+        _isInvincible = true;
+
+        await UniTask.Delay(TimeSpan.FromSeconds(time));
+        _isInvincible = false;
+        Debug.Log("無敵時間終了");
+
+    }
+
     public void AnimationEvent(string eventName)
     {
         _playerStateManager.AnimationEvent(eventName);

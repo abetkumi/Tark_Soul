@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fa0393adb8d86e145a5272952b42efb3
+guid: 613e00ea96a1a0b4eb2bdc1abc0a21e4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Sword And Shield Walk
+      name: Sword And Shield RightStrafe
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 33
+      lastFrame: 34
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
