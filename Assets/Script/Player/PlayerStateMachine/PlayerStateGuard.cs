@@ -25,13 +25,14 @@ public class PlayerStateGuard : IPlayerStateScript
     public override void Start()
     {
         _animator.CrossFadeInFixedTime("BackGuardWalk", 0.3f);
+        _playerScript.GetGuardCollider().enabled = true;
 
         Debug.Log("ÉKÅ[Éh");
     }
 
     public override void End()
     {
-
+        _playerScript.GetGuardCollider().enabled = false;
     }
 
     public override void Update()
