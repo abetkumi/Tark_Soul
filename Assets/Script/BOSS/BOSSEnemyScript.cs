@@ -28,6 +28,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     private float m_attackArea = 3.0f;
     public float m_attackAngleThreshold = 45.0f; //角度の閾値（度）
     private float m_speed = 0.7f;
+    private bool m_dead = false;
     [SerializeField] SphereCollider m_attackCollider;
     //ボスのHP管理用変数
     public int m_bossHP = 1;
@@ -154,6 +155,12 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
     async void doDeath()
     {
+        if (m_dead == true)
+        {
+            return;
+        }
+
+        m_dead = true;
         m_animator.SetTrigger("Death");
 
         await UniTask.Delay(1000);
