@@ -37,7 +37,7 @@ public class PlayerStateIdleScript : IPlayerStateScript
     void StateUpdate()
     {
         //左クリックしたら攻撃
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetButton("Attack"))
         {
             _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
 
@@ -45,23 +45,22 @@ public class PlayerStateIdleScript : IPlayerStateScript
         }
 
         //右クリックしたら
-        if(Input.GetMouseButtonDown(1)) 
+        if(Input.GetMouseButtonDown(1) || Input.GetButtonDown("Dodge")) 
         {
             _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
 
             return;
         }
 
+        if (Input.GetButton("Guard"))
+        {
+            _playerScript.SetPlayerState(new PlayerStateGuard(_player));
+            return;
+        }
 
         //スティックの入力があったら
-        if(Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
-            if(Input.GetButton("Guard"))
-            {
-                _playerScript.SetPlayerState(new PlayerStateGuard(_player));
-                return;
-            }
-
             _playerScript.SetPlayerState(new PlayerStateWalkScript(_player));
 
             return;

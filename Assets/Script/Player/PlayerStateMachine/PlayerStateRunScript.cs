@@ -48,7 +48,7 @@ public class PlayerStateRunScript : IPlayerStateScript
         }
 
         //右クリックしたら回避
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("Dodge"))
         {
             _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
 
