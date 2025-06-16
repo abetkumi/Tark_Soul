@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerGuardCollider : MonoBehaviour
@@ -14,8 +15,9 @@ public class PlayerGuardCollider : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.CompareTag("Player"))
+    {   
+        //エネミーの攻撃以外はスルー!
+        if (!collision.gameObject.transform.root.CompareTag("Enemy"))
         {
             return;
         };

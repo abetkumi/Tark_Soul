@@ -40,7 +40,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
     void StateUpdate()
     {
         //左クリックしたら攻撃
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetButton("Attack"))
         {
             _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
 
@@ -48,7 +48,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
         }
 
         //右クリックしたら回避
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("Dodge"))
         {
             _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
 
