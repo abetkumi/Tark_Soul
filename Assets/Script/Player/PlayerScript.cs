@@ -21,8 +21,9 @@ public class PlayerScript : MonoBehaviour, IDamageable
 
     private PlayerHPBar _playerHPBarScript;
     private Animator _animator = null;   //アニメーター
-    //private float vert, horiz;  //軸入力用変数
     private CharacterController _characterController;    //プレイヤー用キャラクターコントローラ
+
+    private AudioSource _audioSource;
 
     private PlayerStateManagerScript _playerStateManager;   //プレイヤーステートマネージャー
     private CapsuleCollider _swordCollider;    //プレイヤーの持っている剣に付けられたコライダー
@@ -43,6 +44,7 @@ public class PlayerScript : MonoBehaviour, IDamageable
         _PlayerHP = PlayerStartHP;
         _playerHPBarScript = PlayerHPUI.GetComponent<PlayerHPBar>();
         _playerHPBarScript.Init(PlayerStartHP);
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public float GetWalkSpeed()
@@ -84,6 +86,11 @@ public class PlayerScript : MonoBehaviour, IDamageable
         //{
         //    doAttack();
         //}
+    }
+
+    public void PlaySE()
+    {
+        _audioSource.Play();
     }
 
     public void SetPlayerState(IPlayerStateScript state)
