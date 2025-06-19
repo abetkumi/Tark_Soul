@@ -26,7 +26,7 @@ public class ItemSwitchScript : MonoBehaviour
         if(col.tag == "Player")
         {
             //アクションボタンでゲートとレバーのアニメーションを再生する
-            if (Input.GetButton("Action"))
+            if (Input.GetButtonDown("Action"))
             {
                 m_animator_Lever.SetTrigger("Gate Open");
                 m_animator_Right.SetTrigger("Gate Open");

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PlayerStateGuard : IPlayerStateScript
 {
-
-
     private GameObject _player;  //プレイヤー
     private PlayerScript _playerScript; //プレイヤーのスクリプト
     private Animator _animator;
@@ -15,8 +13,6 @@ public class PlayerStateGuard : IPlayerStateScript
     private float vert, horiz;  //軸入力用変数
 
     private Vector3 _moveForward;    //移動ベクトル
-
-    string nowAnimationName;
 
     public PlayerStateGuard(GameObject InsertPlayer)
     {
@@ -28,32 +24,21 @@ public class PlayerStateGuard : IPlayerStateScript
 
     public override void Start()
     {
-        _animator.CrossFadeInFixedTime("IdleGuard", 0.3f);
-        nowAnimationName = "IdleGuard";
+        _animator.CrossFadeInFixedTime("BackGuardWalk", 0.3f);
         _playerScript.GetGuardCollider().enabled = true;
-
 
         Debug.Log("ガード");
     }
 
     public override void End()
     {
-        Debug.Log("ガード終了");
-
         _playerScript.GetGuardCollider().enabled = false;
     }
 
     public override void Update()
     {
         Move();
-
-        string playAnimationName = AnimationName();
-        if(nowAnimationName != playAnimationName)
-        {
-            _animator.CrossFadeInFixedTime(playAnimationName, 0.3f);
-            nowAnimationName = playAnimationName;
-        }
-
+        Animation();
         StateUpdate();
     }
 
@@ -75,43 +60,56 @@ public class PlayerStateGuard : IPlayerStateScript
         
     }
 
-    //再生するアニメーションの名前設定
-    string AnimationName()
+    void Animation()
     {
         //移動方向によってアニメーションを変える
 
         float forwardVecDot = Vector3.Dot(_player.transform.forward, _moveForward);
 
+        _animator.SetBool("back", false);
+        _animator.SetBool("forward", false);
+        _animator.SetBool("right", false);
+        _animator.SetBool("left", false);
+
+
         if (forwardVecDot >= 0.5f)
         {
-            return "ForwardGuardWalk";
+            _animator.SetBool("forward", true);
+            return;
+
+
         }
-        else if (forwardVecDot <= -0.5f)
+        else if(forwardVecDot <= -0.5f)
         {
-            return "BackGuardWalk";
+            _animator.SetBool("back", true);
+            return;
+
         }
 
         float rightVecDot = Vector3.Dot(_player.transform.right, _moveForward);
 
         if (rightVecDot >= 0.5f)
         {
-            return "RightGuardWalk";
+            _animator.SetBool("right", true);
+            return;
+
+
         }
         else if (rightVecDot <= -0.5f)
         {
-            return "LeftGuardWalk";
-        }
+            _animator.SetBool("left", true);
+            return;
 
-        return "IdleGuard";
+
+        }
 
     }
 
     void StateUpdate()
     {
-        if(!Input.GetButton("Guard"))
+        if(Input.GetButtonUp("Guard"))
         {
             _playerScript.SetPlayerState(new PlayerStateIdleScript(_player));
         }
-
     }
 }
