@@ -38,6 +38,10 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     //ñ∂ópïœêî
     [SerializeField] GameObject m_mistObject;
 
+    //BGMópïœêî
+    [SerializeField] GameObject m_bgmObject;
+    BGMScript m_bgmScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +49,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
         m_bossHPScript = m_bossHPObject.GetComponent<BOSSHPBarScript>();
+        m_bgmScript = m_bgmObject.GetComponent<BGMScript>();
         doInit();
     }
 
@@ -162,6 +167,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
         m_dead = true;
         m_animator.SetTrigger("Death");
+        m_bgmScript.BGMStop();
 
         await UniTask.Delay(1000);
         Destroy(m_mistObject);
