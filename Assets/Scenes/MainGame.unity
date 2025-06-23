@@ -5977,6 +5977,44 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 66989152}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &159313729
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDepthMap
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &162128849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15409,7 +15447,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398198302}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.32967782, y: -0.62554806, z: 0.32967532, w: 0.62555283}
+  m_LocalRotation: {x: 0.32967785, y: -0.62554806, z: 0.32967535, w: 0.62555283}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -48636,44 +48674,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1185541379}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &1186822557
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaterDepthMap
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &1190286115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52762,7 +52762,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315104463}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3409721, y: -0.61946434, z: 0.3409694, w: 0.61946905}
+  m_LocalRotation: {x: 0.34097204, y: -0.61946434, z: 0.34096947, w: 0.61946905}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -63867,9 +63867,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
+      propertyPath: SE.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
+        type: 3}
       propertyPath: PlayerWalkSpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
+        type: 3}
+      propertyPath: SE.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 591bc84c8374d5244b44b00754e6806c, type: 3}
+    - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
+        type: 3}
+      propertyPath: SE.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ac1b9199324ae74d91b62b0dc3fc638, type: 3}
     - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
       propertyPath: PlayerSprintSpeed

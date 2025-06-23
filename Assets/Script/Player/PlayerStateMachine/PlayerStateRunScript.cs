@@ -23,12 +23,13 @@ public class PlayerStateRunScript : IPlayerStateScript
     {
         _animator.CrossFadeInFixedTime("ForwardRun", 0.3f);
         Debug.Log("ƒ_ƒbƒVƒ…");
-
+        _playerScript.PlaySE("PaladinRun");
     }
 
     public override void End()
     {
-
+        _playerScript.SetSEPitch(1.0f);
+        _playerScript.StopSE();
     }
 
     public override void Update()
