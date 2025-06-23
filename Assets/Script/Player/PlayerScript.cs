@@ -11,13 +11,15 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour, IDamageable
 {
     [Header("Move")]
-    [SerializeField] float WalkSpeed;     //プレイヤーの歩く速度
-    [SerializeField] float SprintSpeed;   //プレイヤーの走る速度
-    [SerializeField] float RollingSpeed;  //ロリーング回避の速度
+    [SerializeField] private float WalkSpeed;     //プレイヤーの歩く速度
+    [SerializeField] private float SprintSpeed;   //プレイヤーの走る速度
+    [SerializeField] private float RollingSpeed;  //ロリーング回避の速度
 
     [Header("Status")]
-    [SerializeField] int PlayerStartHP;  //プレイヤーの初期HP
-    [SerializeField] Slider PlayerHPUI;
+    [SerializeField] private int PlayerStartHP;  //プレイヤーの初期HP
+    [SerializeField] private Slider PlayerHPUI;
+
+    [SerializeField, Space(15)] private AudioClip []SE;
 
     private PlayerHPBar _playerHPBarScript;
     private Animator _animator = null;   //アニメーター
@@ -46,6 +48,7 @@ public class PlayerScript : MonoBehaviour, IDamageable
         _playerHPBarScript.Init(PlayerStartHP);
         _audioSource = GetComponent<AudioSource>();
     }
+
 
     public float GetWalkSpeed()
     {
@@ -88,9 +91,29 @@ public class PlayerScript : MonoBehaviour, IDamageable
         //}
     }
 
-    public void PlaySE()
+    public void PlaySE(String SEName)
     {
-        _audioSource.Play();
+       foreach(AudioClip se in SE)
+       {
+            if(se.name == SEName)
+            {
+                _audioSource.clip = se;
+
+                _audioSource.Play();
+            }
+       }
+
+        
+    }
+
+    public void StopSE()
+    {
+        _audioSource.Stop();
+    }
+
+    public void SetSEPitch(float pitch)
+    {
+        _audioSource.pitch = pitch;
     }
 
     public void SetPlayerState(IPlayerStateScript state)
