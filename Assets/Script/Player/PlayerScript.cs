@@ -11,18 +11,21 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour, IDamageable
 {
     [Header("Move")]
-    [SerializeField] float WalkSpeed;     //プレイヤーの歩く速度
-    [SerializeField] float SprintSpeed;   //プレイヤーの走る速度
-    [SerializeField] float RollingSpeed;  //ロリーング回避の速度
+    [SerializeField] private float WalkSpeed;     //プレイヤーの歩く速度
+    [SerializeField] private float SprintSpeed;   //プレイヤーの走る速度
+    [SerializeField] private float RollingSpeed;  //ロリーング回避の速度
 
     [Header("Status")]
-    [SerializeField] int PlayerStartHP;  //プレイヤーの初期HP
-    [SerializeField] Slider PlayerHPUI;
+    [SerializeField] private int PlayerStartHP;  //プレイヤーの初期HP
+    [SerializeField] private Slider PlayerHPUI;
+
+    [SerializeField, Space(15)] private AudioClip []SE;
 
     private PlayerHPBar _playerHPBarScript;
     private Animator _animator = null;   //アニメーター
-    //private float vert, horiz;  //軸入力用変数
     private CharacterController _characterController;    //プレイヤー用キャラクターコントローラ
+
+    private AudioSource _audioSource;
 
     private PlayerStateManagerScript _playerStateManager;   //プレイヤーステートマネージャー
     private CapsuleCollider _swordCollider;    //プレイヤーの持っている剣に付けられたコライダー
@@ -43,7 +46,9 @@ public class PlayerScript : MonoBehaviour, IDamageable
         _PlayerHP = PlayerStartHP;
         _playerHPBarScript = PlayerHPUI.GetComponent<PlayerHPBar>();
         _playerHPBarScript.Init(PlayerStartHP);
+        _audioSource = GetComponent<AudioSource>();
     }
+
 
     public float GetWalkSpeed()
     {
@@ -84,6 +89,31 @@ public class PlayerScript : MonoBehaviour, IDamageable
         //{
         //    doAttack();
         //}
+    }
+
+    public void PlaySE(String SEName)
+    {
+       foreach(AudioClip se in SE)
+       {
+            if(se.name == SEName)
+            {
+                _audioSource.clip = se;
+
+                _audioSource.Play();
+            }
+       }
+
+        
+    }
+
+    public void StopSE()
+    {
+        _audioSource.Stop();
+    }
+
+    public void SetSEPitch(float pitch)
+    {
+        _audioSource.pitch = pitch;
     }
 
     public void SetPlayerState(IPlayerStateScript state)

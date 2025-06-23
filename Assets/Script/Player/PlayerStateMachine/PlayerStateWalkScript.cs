@@ -23,12 +23,14 @@ public class PlayerStateWalkScript : IPlayerStateScript
     {
         _animator.CrossFadeInFixedTime("ForwardWalk", 0.3f);
         Debug.Log("•à‚«");
-
+        _playerScript.SetSEPitch(1.5f);
+        _playerScript.PlaySE("PaladinWalk");
     }
 
     public override void End()
     {
-
+        _playerScript.SetSEPitch(1.0f);
+        _playerScript.StopSE();
     }
 
     public override void Update() 
