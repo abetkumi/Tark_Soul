@@ -33,7 +33,7 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
     public override void Update()
     {
         //左クリックしたら連続攻撃予約
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Attack"))
         {
             _isContinuousAttack = true;
         }

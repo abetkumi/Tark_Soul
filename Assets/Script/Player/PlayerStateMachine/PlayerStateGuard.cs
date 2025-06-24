@@ -14,6 +14,8 @@ public class PlayerStateGuard : IPlayerStateScript
 
     private Vector3 _moveForward;    //移動ベクトル
 
+    string nowAnimationName;
+
     public PlayerStateGuard(GameObject InsertPlayer)
     {
         _player = InsertPlayer;
@@ -24,15 +26,23 @@ public class PlayerStateGuard : IPlayerStateScript
 
     public override void Start()
     {
-        _animator.CrossFadeInFixedTime("BackGuardWalk", 0.3f);
+        _animator.CrossFadeInFixedTime("IdleGuard", 0.0f);
+        nowAnimationName = "IdleGuard";
         _playerScript.GetGuardCollider().enabled = true;
 
         Debug.Log("ガード");
+
+        _animator.SetBool("guard", true);
     }
 
     public override void End()
     {
         _playerScript.GetGuardCollider().enabled = false;
+        _animator.SetBool("guard", false);
+        _animator.SetBool("back", false);
+        _animator.SetBool("forward", false);
+        _animator.SetBool("right", false);
+        _animator.SetBool("left", false);
     }
 
     public override void Update()

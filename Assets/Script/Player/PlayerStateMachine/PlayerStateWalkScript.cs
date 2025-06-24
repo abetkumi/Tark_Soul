@@ -24,7 +24,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
         _animator.CrossFadeInFixedTime("ForwardWalk", 0.3f);
         Debug.Log("歩き");
         _playerScript.SetSEPitch(1.5f);
-        _playerScript.PlaySE("PaladinWalk");
+        _playerScript.PlaySE("PaladinWalk", 0.1f);
     }
 
     public override void End()
@@ -42,7 +42,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
     void StateUpdate()
     {
         //左クリックしたら攻撃
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Attack"))
         {
             _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
 
@@ -50,7 +50,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
         }
 
         //右クリックしたら回避
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("Dodge"))
         {
             _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
 

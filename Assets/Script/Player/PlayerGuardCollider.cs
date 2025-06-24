@@ -15,15 +15,21 @@ public class PlayerGuardCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Player"))
+        //コリジョンの持ち主がエネミーか調べる
+        if (!collision.gameObject.transform.root.CompareTag("Enemy"))
         {
             return;
-        };
-
-        if(!_playerScript.IsInvincible())
-        {
-            _playerScript.StartInvincibleTime(2.0f);
-            _playerScript.SetPlayerState(new PlayerStateGuardImpact(_player));
         }
+
+        //無敵時間中なら処理をしない
+        if (_playerScript.IsInvincible())
+        {
+            return; 
+        }
+
+        _playerScript.StartInvincibleTime(2.0f);
+        _playerScript.SetPlayerState(new PlayerStateGuardImpact(_player));
+
+        Debug.Log(collision);
     }
 }

@@ -23,7 +23,7 @@ public class PlayerStateRunScript : IPlayerStateScript
     {
         _animator.CrossFadeInFixedTime("ForwardRun", 0.3f);
         Debug.Log("ダッシュ");
-        _playerScript.PlaySE("PaladinRun");
+        _playerScript.PlaySE("PaladinRun", 0.15f);
     }
 
     public override void End()
@@ -41,7 +41,7 @@ public class PlayerStateRunScript : IPlayerStateScript
     void StateUpdate()
     {
         //左クリックしたら攻撃
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Attack"))
         {
             _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
 
@@ -49,7 +49,7 @@ public class PlayerStateRunScript : IPlayerStateScript
         }
 
         //右クリックしたら回避
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("Dodge"))
         {
             _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
 

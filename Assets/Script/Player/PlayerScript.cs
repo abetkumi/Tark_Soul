@@ -82,22 +82,22 @@ public class PlayerScript : MonoBehaviour, IDamageable
     void Update()
     {
         _playerStateManager.Update();
-
-        //doMove();
-
-        //if(Input.GetMouseButtonDown(0))
-        //{
-        //    doAttack();
-        //}
     }
 
-    public void PlaySE(String SEName)
+    /// <summary>
+    /// SEÇÃçƒê∂
+    /// </summary>
+    /// <param name="SEName">çƒê∂Ç∑ÇÈSEÇÃñºëO</param>
+    /// <param name="PlayStartTime">SEÇÃâΩïbÇÃÇ∆Ç±ÇÎÇ©ÇÁçƒê∂Ç∑ÇÈÇ©</param>
+    public void PlaySE(String SEName, float PlayStartTime = 0.0f)
     {
        foreach(AudioClip se in SE)
        {
             if(se.name == SEName)
             {
                 _audioSource.clip = se;
+
+                _audioSource.time = PlayStartTime;
 
                 _audioSource.Play();
             }
@@ -106,11 +106,12 @@ public class PlayerScript : MonoBehaviour, IDamageable
         
     }
 
+    //SEÇÃí‚é~
     public void StopSE()
     {
         _audioSource.Stop();
     }
-
+    //SEÇÃçƒê∂ë¨ìxê›íË
     public void SetSEPitch(float pitch)
     {
         _audioSource.pitch = pitch;
