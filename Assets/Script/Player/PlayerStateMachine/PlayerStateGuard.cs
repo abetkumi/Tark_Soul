@@ -9,12 +9,9 @@ public class PlayerStateGuard : IPlayerStateScript
     private PlayerScript _playerScript; //プレイヤーのスクリプト
     private Animator _animator;
     private CharacterController _characterController;
-
     private float vert, horiz;  //軸入力用変数
-
     private Vector3 _moveForward;    //移動ベクトル
-
-    string nowAnimationName;
+    private bool _isMoving;
 
     public PlayerStateGuard(GameObject InsertPlayer)
     {
@@ -26,13 +23,15 @@ public class PlayerStateGuard : IPlayerStateScript
 
     public override void Start()
     {
-        _animator.CrossFadeInFixedTime("IdleGuard", 0.0f);
-        nowAnimationName = "IdleGuard";
+        //_animator.CrossFadeInFixedTime("IdleGuard", 0.1f);
         _playerScript.GetGuardCollider().enabled = true;
 
         Debug.Log("ガード");
 
         _animator.SetBool("guard", true);
+
+        _playerScript.SetSEPitch(1.5f);
+        _playerScript.PlaySE("PaladinWalk", 0.1f);
     }
 
     public override void End()
@@ -43,13 +42,32 @@ public class PlayerStateGuard : IPlayerStateScript
         _animator.SetBool("forward", false);
         _animator.SetBool("right", false);
         _animator.SetBool("left", false);
+        _animator.SetBool("idle", false);
+
+        _playerScript.SetSEPitch(1.0f);
+        _playerScript.StopSE();
     }
 
     public override void Update()
     {
+        bool prevIsMoveFlag = _isMoving;
+
         Move();
         Animation();
         StateUpdate();
+
+        if(prevIsMoveFlag != _isMoving)
+        {
+            if(_isMoving)
+            {
+                _playerScript.PlaySE("PaladinWalk", 0.1f);
+            }
+            else
+            {
+                _playerScript.StopSE();
+            }
+        }
+
     }
 
     void Move()
@@ -57,6 +75,18 @@ public class PlayerStateGuard : IPlayerStateScript
         //Lスティックの縦横の入力を取得
         vert = Input.GetAxis("Vertical");
         horiz = Input.GetAxis("Horizontal");
+
+        if (vert == 0 && horiz ==0)
+        {
+            
+            _isMoving = false;
+        }
+        else
+        {
+            
+
+            _isMoving = true;
+        }
 
         //カメラの正面ベクトルから、横(x.z)方向のベクトルを抽出し正規化
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -74,12 +104,19 @@ public class PlayerStateGuard : IPlayerStateScript
     {
         //移動方向によってアニメーションを変える
 
+        if(_isMoving == false)
+        {
+            _animator.SetBool("idle", true);
+            return;
+        }
+
         float forwardVecDot = Vector3.Dot(_player.transform.forward, _moveForward);
 
         _animator.SetBool("back", false);
         _animator.SetBool("forward", false);
         _animator.SetBool("right", false);
         _animator.SetBool("left", false);
+        _animator.SetBool("idle", false);
 
 
         if (forwardVecDot >= 0.5f)
@@ -93,7 +130,6 @@ public class PlayerStateGuard : IPlayerStateScript
         {
             _animator.SetBool("back", true);
             return;
-
         }
 
         float rightVecDot = Vector3.Dot(_player.transform.right, _moveForward);
@@ -109,10 +145,7 @@ public class PlayerStateGuard : IPlayerStateScript
         {
             _animator.SetBool("left", true);
             return;
-
-
         }
-
     }
 
     void StateUpdate()
