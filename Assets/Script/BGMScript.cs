@@ -7,7 +7,6 @@ public class BGMScript : MonoBehaviour
     public AudioSource m_audioSource;
     public AudioClip m_stageAudioClip;
     public AudioClip m_bossAudioClip;
-    float t = 0.1f;
     bool m_bgmStop = false;
 
     // Start is called before the first frame update

@@ -88,11 +88,40 @@ public class PlayerScript : MonoBehaviour, IDamageable
     /// SEの再生
     /// </summary>
     /// <param name="SEName">再生するSEの名前</param>
-    /// <param name="PlayStartTime">SEの何秒のところから再生するか</param>
+    public void PlaySE(String SEName)
+    {
+        //すでにセットされているSEが同じならそのまま再生
+        if (_audioSource.clip.name == SEName)
+        {
+            _audioSource.Play();
+            return;
+        }
+
+        //指定されたSEを探して再生
+        foreach (AudioClip se in SE)
+        {
+            if (se.name == SEName)
+            {
+                _audioSource.clip = se;
+
+                _audioSource.Play();
+            }
+        }
+    }
+    //再生位置指定付き
     public void PlaySE(String SEName, float PlayStartTime = 0.0f)
     {
-       foreach(AudioClip se in SE)
-       {
+        //すでにセットされているSEが同じならそのまま再生
+        if(_audioSource.clip.name == SEName)
+        {
+            _audioSource.time = PlayStartTime;
+            _audioSource.Play();
+            return;
+        }
+
+        //指定されたSEを探して再生
+        foreach (AudioClip se in SE)
+        {
             if(se.name == SEName)
             {
                 _audioSource.clip = se;
@@ -101,9 +130,13 @@ public class PlayerScript : MonoBehaviour, IDamageable
 
                 _audioSource.Play();
             }
-       }
+        }
+    }
 
-        
+    //SEの再生位置の設定(秒)
+    public void SetSetPlaybackPosition(float setTime)
+    {
+        _audioSource.time = setTime;
     }
 
     //SEの停止
