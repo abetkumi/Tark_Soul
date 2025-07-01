@@ -7,7 +7,6 @@ public class BGMScript : MonoBehaviour
     public AudioSource m_audioSource;
     public AudioClip m_stageAudioClip;
     public AudioClip m_bossAudioClip;
-    float t = 0.1f;
     bool m_bgmStop = false;
 
     // Start is called before the first frame update
@@ -32,12 +31,12 @@ public class BGMScript : MonoBehaviour
     {
         if (m_bgmStop == true)
         {
-            m_audioSource.volume -= Time.deltaTime * 0.8f;
+            m_audioSource.volume -= Time.deltaTime * 0.4f;
             if (m_audioSource.volume <= 0.1f)
             {
                 m_audioSource.Stop();
                 m_bgmStop = false;
-                m_audioSource.volume = 1.0f;
+                m_audioSource.volume = 0.5f;
             }
         }
 

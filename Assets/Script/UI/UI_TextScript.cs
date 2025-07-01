@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Cysharp.Threading.Tasks;            // TextMeshProを扱うときに必要
+using Cysharp.Threading.Tasks;            
 
 
 public class UI_TextScript : MonoBehaviour
@@ -22,6 +22,10 @@ public class UI_TextScript : MonoBehaviour
     const int Delay_TIME = 6;
     bool m_isAutoOff = false;
 
+    //SE
+    [SerializeField] GameObject seUIObject;
+    UI_SEScript seUI;
+
     void Awake()
     {
         // RectTransformを取得しておく
@@ -30,13 +34,15 @@ public class UI_TextScript : MonoBehaviour
         m_animator = m_messageText.GetComponent<Animator>();
         // 最初は非表示
         //m_messageObject.SetActive(false);
+        seUI = seUIObject.GetComponent<UI_SEScript>();
         SearchUI_On("漁村");
+        
     }
 
 
     // UIを表示＆更新
     // mode=false…名前表示モード mode=true…説明文表示モード
-    public void SearchUI_On(string text)
+    async public void SearchUI_On(string text)
     {
         if (m_isAutoOff)
         {
@@ -47,7 +53,11 @@ public class UI_TextScript : MonoBehaviour
         m_messageObject.SetActive(true);
         m_messageText.text = text;
         m_animator.SetBool("ON",true);
+
         AutoOff();
+        await UniTask.Delay(700);
+        //SE
+        seUI.SEPlay(seUI.m_stageUI_SE);
     }
 
 
@@ -65,7 +75,6 @@ public class UI_TextScript : MonoBehaviour
     async public void AutoOff()
     {
         await UniTask.Delay(3000);
-        m_isAutoOff = true;
         SearchUI_Off();
         
     }

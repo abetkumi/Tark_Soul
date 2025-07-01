@@ -31,9 +31,11 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     private bool m_dead = false;
     [SerializeField] SphereCollider m_attackCollider;
     //ボスのHP管理用変数
-    public int m_bossHP = 1;
+    public int m_bossHP = 100;
     BOSSHPBarScript m_bossHPScript;
     [SerializeField] GameObject m_bossHPObject;
+    //Attack用変数
+    bool attackFlag = false;
 
     //霧用変数
     [SerializeField] GameObject m_mistObject;
@@ -42,9 +44,21 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     [SerializeField] GameObject m_bgmObject;
     BGMScript m_bgmScript;
 
+    //SE用変数
+    [SerializeField] AudioClip m_bossWalkSE;
+    [SerializeField] AudioClip m_bossAttackSE;
+    [SerializeField] AudioClip m_bossDeadSE;
+    AudioSource m_audioSource;
+
+    //
+    [SerializeField] GameObject m_clearObject;
+    ClearScript m_clearScript;
+
     // Start is called before the first frame update
     void Start()
     {
+        m_clearScript = m_clearObject.GetComponent<ClearScript>();
+        m_audioSource = GetComponent<AudioSource>();
         m_playerScript = m_playerObject.GetComponent<PlayerScript>();
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
@@ -60,7 +74,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     }
 
     //
-    public void doSearch()
+    public void doWalk()
     {
         m_bossStatus = BOSSStatus.Walk;
     }
@@ -73,6 +87,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
         // エネミーがプレイヤーの方向を向いているか
         float angleFromEnemy = Vector3.Angle(transform.forward, (m_playerObject.transform.position - transform.position).normalized);
+        float angleBackFromEnemy = Vector3.Angle(transform.forward * -1.0f, (m_playerObject.transform.position - transform.position).normalized);
 
         float distance = Vector3.Distance(m_playerObject.transform.position, transform.position);
 
@@ -80,12 +95,24 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_agent.SetDestination(m_playerObject.transform.position);
         m_animator.SetFloat("Walk", m_speed);
 
+        //SEを鳴らす
+        if(!m_audioSource.isPlaying)
+        {
+            m_audioSource.PlayOneShot(m_bossWalkSE);
+        }
+      
+
         //攻撃ステートに移行する
         if (angleFromEnemy < m_attackAngleThreshold && Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
         {
             m_bossStatus = BOSSStatus.Attack;
             m_agent.enabled = false;
-            m_animator.SetTrigger("Attack");
+            m_animator.SetFloat("Walk", 0.0f);
+        }
+        else if (angleBackFromEnemy < m_attackAngleThreshold && Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
+        {
+            m_bossStatus = BOSSStatus.Attack;
+            m_agent.enabled = false;
             m_animator.SetFloat("Walk", 0.0f);
         }
 
@@ -101,12 +128,35 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
     void doAttack()
     {
-        
+        if (attackFlag == true)
+        {
+            return;
+        }
+
+        int attackType = Random.Range(0, 2);
+        switch (attackType)
+        {
+            case 0:
+                m_animator.SetTrigger("Attack1");
+                attackFlag = true;
+                break;
+            case 1:
+                m_animator.SetTrigger("Attack2");
+                attackFlag = true;
+                break;
+            case 2:
+                m_animator.SetTrigger("Attack3");
+                attackFlag = true;
+                break;
+        }
     }
 
-    void AttackStart()
+    async void AttackStart()
     {
         m_attackCollider.enabled = true;
+
+        await UniTask.Delay(800);
+        m_audioSource.PlayOneShot(m_bossAttackSE);
     }
 
     private async void AttackEnd()
@@ -121,6 +171,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
             m_agent.enabled = true;
             m_bossStatus = BOSSStatus.Walk;
         }
+        attackFlag = false;
         Debug.Log("ボスアタックエンド");
     }
 
@@ -169,11 +220,22 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_animator.SetTrigger("Death");
         m_bgmScript.BGMStop();
 
+        //霧を削除
         await UniTask.Delay(1000);
         Destroy(m_mistObject);
+        //SEを鳴らす
+        m_audioSource.Stop();
+        m_audioSource.pitch = 1.0f;
+        m_audioSource.PlayOneShot(m_bossDeadSE);
         await UniTask.Delay(5000);
+
+        //ボス削除
         Destroy(this.gameObject);
         Destroy(m_bossHPObject);
+        
+        m_clearScript.ClearActive();
+        //BGMをステージBGMに変更
+        m_bgmScript.BGMPlay(m_bgmScript.m_stageAudioClip);
     }
 
     void doAnimation()
