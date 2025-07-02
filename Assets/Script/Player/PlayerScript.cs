@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 
@@ -17,11 +18,10 @@ public class PlayerScript : MonoBehaviour, IDamageable
 
     [Header("Status")]
     [SerializeField] private int PlayerStartHP;  //プレイヤーの初期HP
-    [SerializeField] private Slider PlayerHPUI;
 
     [SerializeField, Space(15)] private AudioClip []SE;
 
-    private PlayerHPBar _playerHPBarScript;
+    private PlayerHPGauge _playerHPBarScript;
     private Animator _animator = null;   //アニメーター
     private CharacterController _characterController;    //プレイヤー用キャラクターコントローラ
 
@@ -30,7 +30,6 @@ public class PlayerScript : MonoBehaviour, IDamageable
     private PlayerStateManagerScript _playerStateManager;   //プレイヤーステートマネージャー
     private CapsuleCollider _swordCollider;    //プレイヤーの持っている剣に付けられたコライダー
     private BoxCollider _guardCollider; //プレイヤーの前方に設置されているガード用のコライダー
-    private int _PlayerHP;
 
     private bool _isInvincible = false; //無敵フラグ
 
@@ -43,8 +42,8 @@ public class PlayerScript : MonoBehaviour, IDamageable
         _playerStateManager = new PlayerStateManagerScript(this.gameObject);
         _swordCollider = GameObject.Find("mixamorig:Sword_joint").GetComponent<CapsuleCollider>();
         _guardCollider = GameObject.Find("GuardCollision").GetComponent<BoxCollider>();
-        _PlayerHP = PlayerStartHP;
-        _playerHPBarScript = PlayerHPUI.GetComponent<PlayerHPBar>();
+        GameObject PlayerHPUI = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().NewUI(0);
+        _playerHPBarScript = PlayerHPUI.GetComponent<PlayerHPGauge>();
         _playerHPBarScript.Init(PlayerStartHP);
         _audioSource = GetComponent<AudioSource>();
     }
@@ -173,13 +172,9 @@ public class PlayerScript : MonoBehaviour, IDamageable
         //無敵時間
         StartInvincibleTime(2f);
 
-        _PlayerHP -= value;
+        _playerHPBarScript.DecreaseGauge(value);
 
-        _playerHPBarScript.HPUpdate(_PlayerHP);
-
-        Debug.Log(_PlayerHP);
-
-        if (_PlayerHP <= 0)
+        if (_playerHPBarScript.GetCurrentValue() <= 0)
         {
             Debug.Log("プレイヤーが死んだ！この人でなし！");
             SetPlayerState(new PlayerStateDead(this.gameObject));
