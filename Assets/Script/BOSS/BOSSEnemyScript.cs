@@ -19,6 +19,8 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     [SerializeField] GameObject m_playerObject;
     PlayerScript m_playerScript;
 
+    [SerializeField] int BossHP;
+
     //ボス用変数
     BOSSStatus m_bossStatus;
     private Animator m_animator;
@@ -31,9 +33,8 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     private bool m_dead = false;
     [SerializeField] SphereCollider m_attackCollider;
     //ボスのHP管理用変数
-    public int m_bossHP = 1;
     BOSSHPBarScript m_bossHPScript;
-    [SerializeField] GameObject m_bossHPObject;
+    GameObject m_BossHPBar;
 
     //霧用変数
     [SerializeField] GameObject m_mistObject;
@@ -48,8 +49,10 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_playerScript = m_playerObject.GetComponent<PlayerScript>();
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
-        m_bossHPScript = m_bossHPObject.GetComponent<BOSSHPBarScript>();
         m_bgmScript = m_bgmObject.GetComponent<BGMScript>();
+        m_BossHPBar = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().NewUI(1);
+        m_bossHPScript = m_BossHPBar.GetComponent<BOSSHPBarScript>();
+        m_bossHPScript.Init(BossHP);
         doInit();
     }
 
@@ -132,12 +135,10 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_attackCollider.enabled = false;
 
         //HPを減らす
-        m_bossHP -= value;
-
-        m_bossHPScript.HPUpdate(m_bossHP);
+        m_bossHPScript.DecreaseGauge(value);
 
         //HPが0以下ならデス
-        if (m_bossHP <= 0)
+        if (m_bossHPScript.GetCurrentValue() <= 0)
         {
             m_bossStatus = BOSSStatus.Death;
 
@@ -148,7 +149,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     void doDamage()
     {
         
-        if (m_bossHP <= 0.0f)
+        if (m_bossHPScript.GetCurrentValue() <= 0)
         {
             m_bossStatus = BOSSStatus.Death;
         }
@@ -173,7 +174,8 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         Destroy(m_mistObject);
         await UniTask.Delay(5000);
         Destroy(this.gameObject);
-        Destroy(m_bossHPObject);
+        //後でHPUIを消す処理を入れる
+        Destroy(m_BossHPBar);
     }
 
     void doAnimation()
