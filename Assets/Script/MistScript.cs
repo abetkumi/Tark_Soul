@@ -7,7 +7,6 @@ public class MistScript : MonoBehaviour
 {
     //侵入可能エリア
     [SerializeField] BoxCollider m_collider;
-    [SerializeField] GameObject m_BOSSHPBarObject;
     [SerializeField] GameObject m_bossObj;
     [SerializeField] GameObject m_bgmObject;
     BOSSEnemyScript m_boss;
@@ -46,7 +45,8 @@ public class MistScript : MonoBehaviour
             m_collider.enabled = true;
 
             await UniTask.Delay(1000);
-            m_BOSSHPBarObject.SetActive(true);
+            Debug.Log("ボスHP表示");
+            GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().ActiveUI("BOSSHPBar(Clone)");
         }
     }
 }
