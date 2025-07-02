@@ -15,37 +15,52 @@ enum BOSSStatus
 
 public class BOSSEnemyScript : MonoBehaviour, IDamageable
 {
-    //ƒvƒŒƒCƒ„[—p•Ï”
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”¨å¤‰æ•°
     [SerializeField] GameObject m_playerObject;
     PlayerScript m_playerScript;
 
     [SerializeField] int BossHP;
 
-    //ƒ{ƒX—p•Ï”
+    //ãƒœã‚¹ç”¨å¤‰æ•°
     BOSSStatus m_bossStatus;
     private Animator m_animator;
     private NavMeshAgent m_agent;
-    //ƒ{ƒX‚ÌƒXƒe[ƒg•ÏX—p•Ï”
+    //ãƒœã‚¹ã®ã‚¹ãƒ†ãƒ¼ãƒˆå¤‰æ›´ç”¨å¤‰æ•°
     private float m_searchArea = 30.0f;
     private float m_attackArea = 3.0f;
-    public float m_attackAngleThreshold = 45.0f; //Šp“x‚Ìè‡’li“xj
+    public float m_attackAngleThreshold = 45.0f; //è§’åº¦ã®é–¾å€¤ï¼ˆåº¦ï¼‰
     private float m_speed = 0.7f;
     private bool m_dead = false;
     [SerializeField] SphereCollider m_attackCollider;
-    //ƒ{ƒX‚ÌHPŠÇ——p•Ï”
+    //ãƒœã‚¹ã®HPç®¡ç†ç”¨å¤‰æ•°
     BOSSHPBarScript m_bossHPScript;
     GameObject m_BossHPBar;
+    public int m_bossHP = 100;
+    //Attackç”¨å¤‰æ•°
+    bool attackFlag = false;
 
-    //–¶—p•Ï”
+    //éœ§ç”¨å¤‰æ•°
     [SerializeField] GameObject m_mistObject;
 
-    //BGM—p•Ï”
+    //BGMç”¨å¤‰æ•°
     [SerializeField] GameObject m_bgmObject;
     BGMScript m_bgmScript;
+
+    //SEç”¨å¤‰æ•°
+    [SerializeField] AudioClip m_bossWalkSE;
+    [SerializeField] AudioClip m_bossAttackSE;
+    [SerializeField] AudioClip m_bossDeadSE;
+    AudioSource m_audioSource;
+
+    //
+    [SerializeField] GameObject m_clearObject;
+    ClearScript m_clearScript;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_clearScript = m_clearObject.GetComponent<ClearScript>();
+        m_audioSource = GetComponent<AudioSource>();
         m_playerScript = m_playerObject.GetComponent<PlayerScript>();
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
@@ -63,7 +78,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     }
 
     //
-    public void doSearch()
+    public void doWalk()
     {
         m_bossStatus = BOSSStatus.Walk;
     }
@@ -71,28 +86,41 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
     void doMove()
     {
         Vector3 m_directionToBOSS = (transform.position - m_playerObject.transform.position).normalized;
-        // ƒvƒŒƒCƒ„[‚Ì³–ÊƒxƒNƒgƒ‹‚ÆƒGƒlƒ~[‚Ö‚Ì•ûŒüƒxƒNƒgƒ‹‚ÌŠp“x‚ğæ“¾
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ­£é¢ãƒ™ã‚¯ãƒˆãƒ«ã¨ã‚¨ãƒãƒŸãƒ¼ã¸ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã®è§’åº¦ã‚’å–å¾—
         float angleFromPlayer = Vector3.Angle(m_playerObject.transform.forward, m_directionToBOSS);
 
-        // ƒGƒlƒ~[‚ªƒvƒŒƒCƒ„[‚Ì•ûŒü‚ğŒü‚¢‚Ä‚¢‚é‚©
+        // ã‚¨ãƒãƒŸãƒ¼ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ–¹å‘ã‚’å‘ã„ã¦ã„ã‚‹ã‹
         float angleFromEnemy = Vector3.Angle(transform.forward, (m_playerObject.transform.position - transform.position).normalized);
+        float angleBackFromEnemy = Vector3.Angle(transform.forward * -1.0f, (m_playerObject.transform.position - transform.position).normalized);
 
         float distance = Vector3.Distance(m_playerObject.transform.position, transform.position);
 
-        //ƒiƒrƒƒbƒVƒ…‚Ìƒ^[ƒQƒbƒg‚ğƒvƒŒƒCƒ„[‚ÌˆÊ’u‚É•ÏX‚·‚é
+        //ãƒŠãƒ“ãƒ¡ãƒƒã‚·ãƒ¥ã®ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã«å¤‰æ›´ã™ã‚‹
         m_agent.SetDestination(m_playerObject.transform.position);
         m_animator.SetFloat("Walk", m_speed);
 
-        //UŒ‚ƒXƒe[ƒg‚ÉˆÚs‚·‚é
+        //SEã‚’é³´ã‚‰ã™
+        if(!m_audioSource.isPlaying)
+        {
+            m_audioSource.PlayOneShot(m_bossWalkSE);
+        }
+      
+
+        //æ”»æ’ƒã‚¹ãƒ†ãƒ¼ãƒˆã«ç§»è¡Œã™ã‚‹
         if (angleFromEnemy < m_attackAngleThreshold && Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
         {
             m_bossStatus = BOSSStatus.Attack;
             m_agent.enabled = false;
-            m_animator.SetTrigger("Attack");
+            m_animator.SetFloat("Walk", 0.0f);
+        }
+        else if (angleBackFromEnemy < m_attackAngleThreshold && Vector3.Distance(transform.position, m_playerObject.transform.position) <= m_attackArea)
+        {
+            m_bossStatus = BOSSStatus.Attack;
+            m_agent.enabled = false;
             m_animator.SetFloat("Walk", 0.0f);
         }
 
-        //‘Ò‹@ƒXƒe[ƒg‚ÉˆÚs‚·‚é
+        //å¾…æ©Ÿã‚¹ãƒ†ãƒ¼ãƒˆã«ç§»è¡Œã™ã‚‹
         if (Vector3.Distance(transform.position, m_playerObject.transform.position) > m_searchArea)
         {
             m_bossStatus = BOSSStatus.Idle;
@@ -104,12 +132,35 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
     void doAttack()
     {
-        
+        if (attackFlag == true)
+        {
+            return;
+        }
+
+        int attackType = Random.Range(0, 2);
+        switch (attackType)
+        {
+            case 0:
+                m_animator.SetTrigger("Attack1");
+                attackFlag = true;
+                break;
+            case 1:
+                m_animator.SetTrigger("Attack2");
+                attackFlag = true;
+                break;
+            case 2:
+                m_animator.SetTrigger("Attack3");
+                attackFlag = true;
+                break;
+        }
     }
 
-    void AttackStart()
+    async void AttackStart()
     {
         m_attackCollider.enabled = true;
+
+        await UniTask.Delay(800);
+        m_audioSource.PlayOneShot(m_bossAttackSE);
     }
 
     private async void AttackEnd()
@@ -118,26 +169,27 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_attackCollider.enabled = false;
         await UniTask.Delay(200);
 
-        //‘Ò‹@ƒXƒe[ƒg‚ÉˆÚs‚·‚é
+        //å¾…æ©Ÿã‚¹ãƒ†ãƒ¼ãƒˆã«ç§»è¡Œã™ã‚‹
         if (m_bossStatus != BOSSStatus.Death)
         {
             m_agent.enabled = true;
             m_bossStatus = BOSSStatus.Walk;
         }
-        Debug.Log("ƒ{ƒXƒAƒ^ƒbƒNƒGƒ“ƒh");
+        attackFlag = false;
+        Debug.Log("ãƒœã‚¹ã‚¢ã‚¿ãƒƒã‚¯ã‚¨ãƒ³ãƒ‰");
     }
 
     public void ReceivedDamage(int value)
     {
-        Debug.Log("“G‚ªƒ_ƒ[ƒW‚ğó‚¯‚½");
+        Debug.Log("æ•µãŒãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸ");
 
-        //UŒ‚”»’è‚ğƒIƒt‚É
+        //æ”»æ’ƒåˆ¤å®šã‚’ã‚ªãƒ•ã«
         m_attackCollider.enabled = false;
 
-        //HP‚ğŒ¸‚ç‚·
+        //HPã‚’æ¸›ã‚‰ã™
         m_bossHPScript.DecreaseGauge(value);
 
-        //HP‚ª0ˆÈ‰º‚È‚çƒfƒX
+        //HPãŒ0ä»¥ä¸‹ãªã‚‰ãƒ‡ã‚¹
         if (m_bossHPScript.GetCurrentValue() <= 0)
         {
             m_bossStatus = BOSSStatus.Death;
@@ -170,12 +222,22 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_animator.SetTrigger("Death");
         m_bgmScript.BGMStop();
 
+        //éœ§ã‚’å‰Šé™¤
         await UniTask.Delay(1000);
         Destroy(m_mistObject);
+        //SEã‚’é³´ã‚‰ã™
+        m_audioSource.Stop();
+        m_audioSource.pitch = 1.0f;
+        m_audioSource.PlayOneShot(m_bossDeadSE);
         await UniTask.Delay(5000);
+
+        //ãƒœã‚¹å‰Šé™¤
         Destroy(this.gameObject);
-        //Œã‚ÅHPUI‚ğÁ‚·ˆ—‚ğ“ü‚ê‚é
         Destroy(m_BossHPBar);
+        
+        m_clearScript.ClearActive();
+        //BGMã‚’ã‚¹ãƒ†ãƒ¼ã‚¸BGMã«å¤‰æ›´
+        m_bgmScript.BGMPlay(m_bgmScript.m_stageAudioClip);
     }
 
     void doAnimation()

@@ -27,7 +27,7 @@ public class MistScript : MonoBehaviour
             if (Input.GetButtonDown("Action"))
             {
                 m_collider.enabled = false;
-                m_boss.doSearch();
+                m_boss.doWalk();
                 //ƒ{ƒXBGM‚ð—¬‚·
                 m_bgmScript.BGMStop();
                 await UniTask.Delay(2000);

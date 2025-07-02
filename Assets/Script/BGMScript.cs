@@ -31,12 +31,12 @@ public class BGMScript : MonoBehaviour
     {
         if (m_bgmStop == true)
         {
-            m_audioSource.volume -= Time.deltaTime * 0.8f;
+            m_audioSource.volume -= Time.deltaTime * 0.4f;
             if (m_audioSource.volume <= 0.1f)
             {
                 m_audioSource.Stop();
                 m_bgmStop = false;
-                m_audioSource.volume = 1.0f;
+                m_audioSource.volume = 0.5f;
             }
         }
 
