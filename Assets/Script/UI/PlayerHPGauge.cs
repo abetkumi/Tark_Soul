@@ -1,38 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BOSSHPBarScript : GaugeUIBase
+//プレイヤーのHPバースクリプト
+public class PlayerHPGauge : GaugeUIBase
 {
-
-    private int _MaxHP;
+    private float _maxHP;
     private float _currentHP;   //現在HP
-    private Slider _BOSShpSlider;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        base.Start();
-        _BOSShpSlider = GetComponent<Slider>();
-        gameObject.SetActive(false);
-    }
+    private Slider _hpSlider;
+
+
 
     public void Init(int MaxHP)
     {
         Debug.Log(MaxHP);
 
-        _BOSShpSlider = GetComponent<Slider>();
+        _hpSlider = GetComponent<Slider>();
 
-        _MaxHP = MaxHP;
-        _BOSShpSlider.maxValue = _MaxHP;  //スライダーの最大値を設定
+        _maxHP = MaxHP;
+        _hpSlider.maxValue = _maxHP;  //スライダーの最大値を設定
 
-        _currentHP = _MaxHP;
-        _BOSShpSlider.value = _currentHP; //現在のHPを反映
+        _currentHP = _maxHP;
+        _hpSlider.value = _currentHP; //現在のHPを反映
 
     }
 
-    public override void IncreaseGuage(float value)
+    public override void  IncreaseGuage(float value)
     {
         _currentHP += value;
 
@@ -59,7 +55,7 @@ public class BOSSHPBarScript : GaugeUIBase
 
     public override void SetMaxValue(float value)
     {
-        _BOSShpSlider.maxValue = value;
+        _hpSlider.maxValue = value;
     }
 
 
@@ -67,6 +63,6 @@ public class BOSSHPBarScript : GaugeUIBase
     public void GaugeUpdate()
     {
         //スライダーに反映
-        _BOSShpSlider.value = _currentHP;
+        _hpSlider.value = _currentHP;
     }
 }
