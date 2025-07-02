@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 public class ClearScript : MonoBehaviour
 {
     [SerializeField]
     GameObject m_bornfire;
+
+    //クリア演出（仮）
+    [SerializeField]
+    GameObject m_clearText;
+    bool m_titleBack = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,25 +25,22 @@ public class ClearScript : MonoBehaviour
         m_bornfire.SetActive(true);
     }
 
-    private void OnTriggerEnter(Collider other)
+    async public void Clear()
     {
-        if (other.tag == "Player")
-        {
-            if (Input.GetButtonDown("Action"))
-            {
-                Clear();
-            }
-        }
-    }
+        m_clearText.SetActive(true);
 
-    void Clear()
-    {
+        await UniTask.Delay(1000);
+        m_titleBack = true;
         Debug.Log("クリア");
     }
 
     // Update is called once per frame
-    void Update()
+    async void Update()
     {
-        
+        if (m_titleBack == true && Input.GetButtonDown("Action"))
+        {
+            //タイトルシーンに移動する
+            await SceneManager.LoadSceneAsync("Title").ToUniTask();
+        }
     }
 }
