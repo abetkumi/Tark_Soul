@@ -42,7 +42,7 @@ public class PlayerScript : MonoBehaviour, IDamageable
         _playerStateManager = new PlayerStateManagerScript(this.gameObject);
         _swordCollider = GameObject.Find("mixamorig:Sword_joint").GetComponent<CapsuleCollider>();
         _guardCollider = GameObject.Find("GuardCollision").GetComponent<BoxCollider>();
-        GameObject PlayerHPUI = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().NewUI(0);
+        GameObject PlayerHPUI = UIManager.GetUIManager().NewUI(0); ;
         _playerHPBarScript = PlayerHPUI.GetComponent<PlayerHPGauge>();
         _playerHPBarScript.Init(PlayerStartHP);
         _audioSource = GetComponent<AudioSource>();

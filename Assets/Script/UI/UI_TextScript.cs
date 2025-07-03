@@ -6,7 +6,7 @@ using TMPro;
 using Cysharp.Threading.Tasks;            
 
 
-public class UI_TextScript : MonoBehaviour
+public class UI_TextScript : TextUIBase
 {
     [SerializeField]
     GameObject m_messageObject;
@@ -23,7 +23,7 @@ public class UI_TextScript : MonoBehaviour
     bool m_isAutoOff = false;
 
     //SE
-    [SerializeField] GameObject seUIObject;
+    GameObject seUIObject;
     UI_SEScript seUI;
 
     void Awake()
@@ -34,6 +34,7 @@ public class UI_TextScript : MonoBehaviour
         m_animator = m_messageText.GetComponent<Animator>();
         // ç≈èâÇÕîÒï\é¶
         //m_messageObject.SetActive(false);
+        seUIObject = GameObject.FindGameObjectWithTag("UI_SE");
         seUI = seUIObject.GetComponent<UI_SEScript>();
         SearchUI_On("ãôë∫");
         

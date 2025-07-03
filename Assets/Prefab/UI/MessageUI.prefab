@@ -49,9 +49,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363ce311cf658574ab0c6a52ad122bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UINumber: 2
   m_messageObject: {fileID: 823358697740259129}
   m_messageText: {fileID: 7024333208773680520}
   m_animator: {fileID: 1590126385927951174}
+  seUIObject: {fileID: 0}
 --- !u!1 &2307512838999873940
 GameObject:
   m_ObjectHideFlags: 0
