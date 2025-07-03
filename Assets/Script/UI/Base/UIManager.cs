@@ -4,14 +4,41 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    static private UIManager _UIManager;
+    static private Canvas _Canvas;
+    static private List<GameObject> _UIPrefabList = new List<GameObject>();
+
+
     [SerializeField] Canvas canvas;
-    [SerializeField] GameObject[] UIPrefabList;
+    [SerializeField] GameObject[] UIPrefab;
 
     List<UIBase> UIList = new List<UIBase>();
 
+    private void Awake()
+    {
+        if(_UIManager == null)
+        {
+            _UIManager = new UIManager();
+            _UIManager.Init(canvas, UIPrefab);
+        }
+    }
+
+    private void Init(Canvas canvas, GameObject[] UIPrefab)
+    {
+        _Canvas = canvas;
+        _UIPrefabList.AddRange(UIPrefab);
+    }
+
+
     private void Start()
     {
-        NewUI(2);
+        _UIManager.NewUI(2);
+    }
+
+    //UIManager‚ðŽæ“¾
+    static public UIManager GetUIManager()
+    {
+        return _UIManager;
     }
 
     public void RegistrationUI(UIBase UI)
@@ -28,8 +55,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject NewUI(int UINumber)
     {
-        GameObject UI = Instantiate(UIPrefabList[UINumber]);
-        UI.transform.SetParent(canvas.transform, false);
+        GameObject UI = Instantiate(_UIPrefabList[UINumber]);
+        UI.transform.SetParent(_Canvas.transform, false);
         return UI;
     }
 
@@ -68,7 +95,7 @@ public class UIManager : MonoBehaviour
     {
         foreach (UIBase UI in UIList)
         {
-            if (UI == UIPrefabList[UINumber])
+            if (UI == _UIPrefabList[UINumber])
             {
                 UI.UIActive();
             }

@@ -6,8 +6,8 @@ public class SaveScript : MonoBehaviour
 {
     [SerializeField] GameObject m_playerObject;
     [SerializeField] GameObject m_respawnObject;
-    [SerializeField] GameObject m_UIObject;
     [SerializeField] GameObject m_bornFireObject;
+    GameObject TextUI;
     UI_TextScript m_UI_text;
     RespawnScript m_respawnScript;
     bool m_Save = false;
@@ -15,7 +15,6 @@ public class SaveScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_UI_text = m_UIObject.GetComponent<UI_TextScript>();
         m_respawnScript = m_respawnObject.GetComponent<RespawnScript>();
     }
 
@@ -34,6 +33,12 @@ public class SaveScript : MonoBehaviour
 
     void SetRespawn()
     {
+        //テキストUIの生成
+        TextUI = UIManager.GetUIManager().NewUI(2);
+        m_UI_text = TextUI.GetComponent<UI_TextScript>();
+
+        m_UI_text.SetAutoDelete(5.0f);
+
         m_UI_text.SearchUI_On("かがり火を灯した");
         Debug.Log("セーブしました。");
         m_respawnScript.m_respawnPoint = transform.position;

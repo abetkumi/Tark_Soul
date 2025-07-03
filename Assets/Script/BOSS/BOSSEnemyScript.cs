@@ -65,7 +65,7 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         m_animator = GetComponent<Animator>();
         m_agent = GetComponent<NavMeshAgent>();
         m_bgmScript = m_bgmObject.GetComponent<BGMScript>();
-        m_BossHPBar = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().NewUI(1);
+        m_BossHPBar = UIManager.GetUIManager().NewUI(1);
         m_bossHPScript = m_BossHPBar.GetComponent<BOSSHPBarScript>();
         m_bossHPScript.Init(BossHP);
         doInit();

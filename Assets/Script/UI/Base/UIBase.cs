@@ -9,18 +9,18 @@ public class UIBase : MonoBehaviour
     public void Start()
     {
         //UIマネージャーに自身を登録
-        GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().RegistrationUI(this);
+        UIManager.GetUIManager().RegistrationUI(this);
     }
 
     public void OnDestroy()
     {
         //UIマネージャーから自身を削除
         //GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().DeleteUI(this);
-        GameObject UIManager = GameObject.FindGameObjectWithTag("UIManager");
+        UIManager UiManager = UIManager.GetUIManager();
 
-        if(UIManager != null)
+        if (UiManager != null)
         {
-            UIManager.GetComponent<UIManager>().DeleteUI(this);
+            UiManager.GetComponent<UIManager>().DeleteUI(this);
         }
         else
         {
