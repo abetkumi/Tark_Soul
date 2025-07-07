@@ -40179,6 +40179,7 @@ MonoBehaviour:
   - {fileID: 7030828089827671639, guid: 25c13e8c03ac95945a87405be40531e8, type: 3}
   - {fileID: 6716517893480128607, guid: 12256d17f3055824f84294d9aae5d777, type: 3}
   - {fileID: 823358697740259129, guid: 67f33c52f755a2e479e5da5ec4fa2f41, type: 3}
+  - {fileID: 3342005954281198046, guid: 766f8410e42b10049a2a6662d3dc51e2, type: 3}
 --- !u!4 &966642349
 Transform:
   m_ObjectHideFlags: 0
@@ -55620,7 +55621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerObject: {fileID: 1331653610}
-  m_playerHPObject: {fileID: 0}
   m_respawnPoint: {x: 0, y: 0, z: 0}
 --- !u!4 &1358303730
 Transform:
@@ -65552,6 +65552,11 @@ PrefabInstance:
         type: 3}
       propertyPath: PlayerSprintSpeed
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
+        type: 3}
+      propertyPath: PlayerStartStamina
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5914745460017455914, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}

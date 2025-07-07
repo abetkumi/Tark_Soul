@@ -31,7 +31,7 @@ public class PlayerStateRollingScript : IPlayerStateScript
 
         _characterController.detectCollisions = false;
 
-
+        _playerScript.DecreasePlayerStamina(15.0f);
     }
 
     public override void End()

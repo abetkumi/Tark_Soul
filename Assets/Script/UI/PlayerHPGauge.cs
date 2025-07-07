@@ -25,7 +25,6 @@ public class PlayerHPGauge : GaugeUIBase
 
         _currentHP = _maxHP;
         _hpSlider.value = _currentHP; //Œ»İ‚ÌHP‚ğ”½‰f
-
     }
 
     public override void  IncreaseGuage(float value)

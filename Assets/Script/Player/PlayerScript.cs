@@ -18,10 +18,12 @@ public class PlayerScript : MonoBehaviour, IDamageable
 
     [Header("Status")]
     [SerializeField] private int PlayerStartHP;  //プレイヤーの初期HP
+    [SerializeField] private int PlayerStartStamina;  //プレイヤーの初期スタミナ
 
     [SerializeField, Space(15)] private AudioClip []SE;
 
     private PlayerHPGauge _playerHPBarScript;
+    private PlayerStaminaGauge _playerStaminaGaugeScript;
     private Animator _animator = null;   //アニメーター
     private CharacterController _characterController;    //プレイヤー用キャラクターコントローラ
 
@@ -42,10 +44,33 @@ public class PlayerScript : MonoBehaviour, IDamageable
         _playerStateManager = new PlayerStateManagerScript(this.gameObject);
         _swordCollider = GameObject.Find("mixamorig:Sword_joint").GetComponent<CapsuleCollider>();
         _guardCollider = GameObject.Find("GuardCollision").GetComponent<BoxCollider>();
-        GameObject PlayerHPUI = UIManager.GetUIManager().NewUI(0); ;
+        GameObject PlayerHPUI = UIManager.GetUIManager().NewUI(0);
         _playerHPBarScript = PlayerHPUI.GetComponent<PlayerHPGauge>();
         _playerHPBarScript.Init(PlayerStartHP);
+
+        GameObject PlayerStaminaUI = UIManager.GetUIManager().NewUI(3);
+        _playerStaminaGaugeScript = PlayerStaminaUI.GetComponent<PlayerStaminaGauge>();
+
+        _playerStaminaGaugeScript.Init(PlayerStartStamina);
+
         _audioSource = GetComponent<AudioSource>();
+    }
+
+    //スタミナ減少
+    public void DecreasePlayerStamina(float value)
+    {
+        _playerStaminaGaugeScript.DecreaseGauge(value);
+    }
+    //スタミナ回復
+    public void IncreasePlayerStamina(float value)
+    {
+        _playerStaminaGaugeScript.IncreaseGuage(value);
+    }
+
+    //現在スタミナ量を取得
+    public float GetCurrentStamina()
+    {
+        return _playerStaminaGaugeScript.GetCurrentValue();
     }
 
 

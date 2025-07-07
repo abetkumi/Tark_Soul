@@ -37,6 +37,7 @@ public class PlayerStateWalkScript : IPlayerStateScript
     {
         StateUpdate();
         Move();
+        _playerScript.IncreasePlayerStamina(20.0f * Time.deltaTime);
     }
 
     void StateUpdate()
@@ -44,7 +45,10 @@ public class PlayerStateWalkScript : IPlayerStateScript
         //左クリックしたら攻撃
         if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Attack"))
         {
-            _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
+            if (_playerScript.GetCurrentStamina() > 0)
+            {
+                _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
+            }
 
             return;
         }
@@ -52,7 +56,10 @@ public class PlayerStateWalkScript : IPlayerStateScript
         //右クリックしたら回避
         if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("Dodge"))
         {
-            _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
+            if (_playerScript.GetCurrentStamina() > 0)
+            {
+                _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
+            }
 
             return;
         }
@@ -67,7 +74,10 @@ public class PlayerStateWalkScript : IPlayerStateScript
 
         if(Input.GetButton("Sprint"))
         {
-            _playerScript.SetPlayerState(new PlayerStateRunScript(_player));
+            if(_playerScript.GetCurrentStamina() > 0)
+            {
+                _playerScript.SetPlayerState(new PlayerStateRunScript(_player));
+            }
 
             return;
         }
