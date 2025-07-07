@@ -68,6 +68,9 @@ public class PlayerStateGuard : IPlayerStateScript
             }
         }
 
+        _playerScript.IncreasePlayerStamina(10.0f * Time.deltaTime);
+
+
     }
 
     void Move()

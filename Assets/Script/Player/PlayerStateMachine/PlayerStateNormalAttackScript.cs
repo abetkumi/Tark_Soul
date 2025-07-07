@@ -22,6 +22,8 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
     {
         Debug.Log("攻撃");
         _animator.CrossFadeInFixedTime("NormalAttack", 0.3f);
+        _playerScript.DecreasePlayerStamina(15.0f);
+
         //_playerScript.GetSwordCollider().enabled = true;
     }
 
@@ -60,14 +62,21 @@ public class PlayerStateNormalAttackScript : IPlayerStateScript
 
         if(EventName == "AttackContinuationPoint")
         {
+            //スタミナが無ければスキップ
+            if (_playerScript.GetCurrentStamina() <= 0)
+            {
+                return;
+            }
 
-            if (_isContinuousAttack)
+                if (_isContinuousAttack)
             {
                 Debug.Log("攻撃継続");
 
                 _animator.CrossFadeInFixedTime("attack", 0.3f);
 
                 _isContinuousAttack = false;
+
+                _playerScript.DecreasePlayerStamina(15.0f);
             }
         }
     }
