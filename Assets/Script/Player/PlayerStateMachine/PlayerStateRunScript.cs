@@ -36,10 +36,20 @@ public class PlayerStateRunScript : IPlayerStateScript
     {
         StateUpdate();
         Move();
+
+        _playerScript.DecreasePlayerStamina(10.0f * Time.deltaTime);
     }
 
     void StateUpdate()
     {
+        //スタミナがなくなったら強制終了
+        if (_playerScript.GetCurrentStamina() <= 0)
+        {
+            _playerScript.SetPlayerState(new PlayerStateIdleScript(_player));
+
+            return;
+        }
+
         //左クリックしたら攻撃
         if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Attack"))
         {

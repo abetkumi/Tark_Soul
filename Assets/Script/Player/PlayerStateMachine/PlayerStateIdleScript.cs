@@ -31,6 +31,7 @@ public class PlayerStateIdleScript : IPlayerStateScript
     public override void Update()
     {
         StateUpdate();
+        _playerScript.IncreasePlayerStamina(20.0f * Time.deltaTime);
     }
 
 
@@ -39,7 +40,10 @@ public class PlayerStateIdleScript : IPlayerStateScript
         //左クリックしたら攻撃
         if (Input.GetMouseButtonDown(0) || Input.GetButton("Attack"))
         {
-            _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
+            if (_playerScript.GetCurrentStamina() > 0)
+            {
+                _playerScript.SetPlayerState(new PlayerStateNormalAttackScript(_player));
+            }
 
             return;
         }
@@ -47,7 +51,10 @@ public class PlayerStateIdleScript : IPlayerStateScript
         //右クリックしたら
         if (Input.GetMouseButtonDown(1) || Input.GetButton("Dodge"))
         {
-            _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
+            if (_playerScript.GetCurrentStamina() > 0)
+            {
+                _playerScript.SetPlayerState(new PlayerStateRollingScript(_player));
+            }
 
             return;
         }

@@ -26,7 +26,6 @@ public class PlayerStateGuardImpact : IPlayerStateScript
     // Update is called once per frame
     public override void Update()
     {
-
     }
 
     public override void AnimationEvent(string EventName)
