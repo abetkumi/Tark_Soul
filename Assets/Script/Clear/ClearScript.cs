@@ -17,7 +17,7 @@ public class ClearScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_bornfire.SetActive(false);
     }
 
     public void ClearActive()
@@ -30,6 +30,7 @@ public class ClearScript : MonoBehaviour
         m_clearText.SetActive(true);
 
         await UniTask.Delay(1000);
+        Time.timeScale = 3.0f;
         m_titleBack = true;
         Debug.Log("クリア");
     }
@@ -41,6 +42,7 @@ public class ClearScript : MonoBehaviour
         {
             //タイトルシーンに移動する
             await SceneManager.LoadSceneAsync("Title").ToUniTask();
+            Time.timeScale = 1.0f;
         }
     }
 }

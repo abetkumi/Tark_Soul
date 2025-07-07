@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
 
     //Enemyステータス用変数
     EnemyStatus m_enemyStatus = EnemyStatus.Idle;
+    bool isDead = false;
     
     //アニメーション用変数
     private Animator m_animator;
@@ -87,12 +89,12 @@ public class EnemyScript : MonoBehaviour, IDamageable
 
     private void doAttack()
     {
-        ////攻撃中プレイヤーの方向を向く
-        //Vector3 direction = m_playerPosition - transform.position;  // プレイヤー方向のベクトル
-        //direction.y = 0;
-        //Quaternion m_targetRotation = Quaternion.LookRotation(direction);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, m_rotationSpeed * Time.deltaTime);
-        
+        //攻撃中プレイヤーの方向を向く
+        Vector3 direction = m_playerPosition - transform.position;  // プレイヤー方向のベクトル
+        direction.y = 0;
+        Quaternion m_targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, m_rotationSpeed * Time.deltaTime);
+
         //攻撃判定を有効にする
         m_attackCollider.enabled = true;
 
@@ -104,18 +106,18 @@ public class EnemyScript : MonoBehaviour, IDamageable
 
     private void AttackEnd()
     {
-        //if (m_enemyStatus == EnemyStatus.Death)
-        //{
-        //    return;
-        //}
+        if (m_enemyStatus == EnemyStatus.Death)
+        {
+            return;
+        }
 
         //プレイヤーが攻撃範囲内にいると再び攻撃
         if (Vector3.Distance(transform.position, m_playerPosition) <= 3.0f)
         {
             // エネミーの正面をプレイヤーに向ける（補完させたい）
-            Vector3 direction = m_playerPosition - transform.position;  // プレイヤー方向のベクトル
-            direction.y = 0;  // Y軸方向の回転を無効にして、XZ平面のみで回転させる
-            transform.rotation = Quaternion.LookRotation(direction);  // プレイヤーの方向を向く
+            //Vector3 direction = m_playerPosition - transform.position;  // プレイヤー方向のベクトル
+            //direction.y = 0;  // Y軸方向の回転を無効にして、XZ平面のみで回転させる
+            //transform.rotation = Quaternion.LookRotation(direction);  // プレイヤーの方向を向く
         }
         //プレイヤーが近くにいると追跡状態
         else if (Vector3.Distance(transform.position, m_playerPosition) <= 10.0f)
@@ -160,9 +162,18 @@ public class EnemyScript : MonoBehaviour, IDamageable
         
     }
 
-    private void doDeath()
+    async private void doDeath()
     {
-        //Debug.Log("敵が4んだ");
+        if (isDead == true)
+        {
+            return;
+        }
+
+        isDead = true;
+
+        await UniTask.Delay(3000);
+        Destroy(gameObject);
+        Debug.Log("敵が4んだ");
     }
 
     private void doAnimation()
