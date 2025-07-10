@@ -46,7 +46,7 @@ public class MistScript : MonoBehaviour
 
             await UniTask.Delay(1000);
             Debug.Log("É{ÉXHPï\é¶");
-            GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>().ActiveUI("BOSSHPBar(Clone)");
+            UIManager.GetUIManager().ActiveUI("BOSSHPBar(Clone)");
         }
     }
 }

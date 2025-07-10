@@ -18,7 +18,8 @@ public class BGMScript : MonoBehaviour
 
     public void BGMPlay(AudioClip audio)
     {
-        m_audioSource.PlayOneShot(audio);
+        m_audioSource.clip = audio;
+        m_audioSource.Play();
     }
 
     public void BGMStop()

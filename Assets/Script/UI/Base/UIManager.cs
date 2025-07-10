@@ -70,6 +70,28 @@ public class UIManager : MonoBehaviour
             UI.UINonActive();
         }
     }
+    //“Á’è‚ÌUI‚ð”ñ•\Ž¦
+    public void NonActiveUI(string UIName)
+    {
+        foreach (UIBase UI in UIList)
+        {
+            if (UI.gameObject.name == UIName)
+            {
+                UI.UINonActive();
+            }
+        }
+    }
+    public void NonActiveUI(int UINumber)
+    {
+        foreach (UIBase UI in UIList)
+        {
+            if (UI == _UIPrefabList[UINumber])
+            {
+                UI.UINonActive();
+            }
+        }
+    }
+
 
     //UI‚ð•\Ž¦
     public void ActiveUI()

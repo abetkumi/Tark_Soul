@@ -13,6 +13,7 @@ enum BOSSStatus
     Death,
 }
 
+
 public class BOSSEnemyScript : MonoBehaviour, IDamageable
 {
     //プレイヤー用変数
@@ -71,6 +72,11 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
         doInit();
     }
 
+    public void OnDestroy()
+    {
+        UIManager.GetUIManager().NonActiveUI("BOSSHPBar(Clone)");
+    }
+
     void doInit()
     {
         m_bossStatus = BOSSStatus.Idle;
@@ -118,15 +124,6 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
             m_bossStatus = BOSSStatus.Attack;
             m_agent.enabled = false;
             m_animator.SetFloat("Walk", 0.0f);
-        }
-
-        //待機ステートに移行する
-        if (Vector3.Distance(transform.position, m_playerObject.transform.position) > m_searchArea)
-        {
-            m_bossStatus = BOSSStatus.Idle;
-            m_agent.SetDestination(transform.position);
-            m_animator.SetFloat("Walk", 0.0f);
-
         }
     }
 
@@ -233,7 +230,6 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
         //ボス削除
         Destroy(this.gameObject);
-        Destroy(m_BossHPBar);
         
         m_clearScript.ClearActive();
         //BGMをステージBGMに変更
