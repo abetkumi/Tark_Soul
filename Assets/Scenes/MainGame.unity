@@ -1432,6 +1432,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemZombie
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 8f7380da49034cd488ddff94b1ac35d1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11927,7 +11932,7 @@ Transform:
   m_GameObject: {fileID: 315647202}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.045, y: 8.096, z: 31.099987}
+  m_LocalPosition: {x: 7.545, y: 8.096, z: 31.099997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13338,6 +13343,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BOSS
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6b073d2b6e1da9d4f943fe6d4827c343,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6b073d2b6e1da9d4f943fe6d4827c343,
         type: 3}
@@ -15813,7 +15823,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398198302}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3296779, y: -0.625548, z: 0.32967532, w: 0.6255529}
+  m_LocalRotation: {x: 0.32967696, y: 0.6255498, z: -0.32967627, w: 0.6255511}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -17791,6 +17801,10 @@ PrefabInstance:
     - target: {fileID: 1478314613700728, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
       propertyPath: m_Name
       value: MediumFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478314613700728, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4469749203399680, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
       propertyPath: m_LocalScale.x
@@ -22566,6 +22580,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2086600764}
     m_Modifications:
     - target: {fileID: 100002, guid: b375698b498496640b77976be04ec05e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: b375698b498496640b77976be04ec05e, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -23264,6 +23282,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Zombie1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 8f7380da49034cd488ddff94b1ac35d1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 8f7380da49034cd488ddff94b1ac35d1,
         type: 3}
@@ -40180,6 +40203,7 @@ MonoBehaviour:
   - {fileID: 6716517893480128607, guid: 12256d17f3055824f84294d9aae5d777, type: 3}
   - {fileID: 823358697740259129, guid: 67f33c52f755a2e479e5da5ec4fa2f41, type: 3}
   - {fileID: 3342005954281198046, guid: 766f8410e42b10049a2a6662d3dc51e2, type: 3}
+  - {fileID: 2609832188122758609, guid: c446a046361edb8438138b565960b5e5, type: 3}
 --- !u!4 &966642349
 Transform:
   m_ObjectHideFlags: 0
@@ -40576,8 +40600,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 973352068}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.39923632, y: -0.58361715, z: 0.39923328, w: 0.5836217}
-  m_LocalPosition: {x: 11.045, y: 8.096, z: 31.099987}
+  m_LocalRotation: {x: 0.39923522, y: 0.5836188, z: -0.3992344, w: 0.58361995}
+  m_LocalPosition: {x: 7.545, y: 8.096, z: 31.099997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51466,7 +51490,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227965293}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.39923632, y: -0.58361715, z: 0.3992333, w: 0.58362156}
+  m_LocalRotation: {x: 0.39923525, y: 0.58361876, z: -0.39923435, w: 0.58362}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -54074,7 +54098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315104463}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.34097207, y: -0.6194643, z: 0.34096938, w: 0.6194691}
+  m_LocalRotation: {x: 0.34097114, y: 0.619466, z: -0.34097034, w: 0.6194674}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -61238,6 +61262,44 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1485710071}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &1490220880
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDepthMap
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &1490366437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65475,6 +65537,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BookHeadMonster_withBlood (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5462556936816707063, guid: cf093e7a3fffdd7438af1762d187a719,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8795388227319461386, guid: cf093e7a3fffdd7438af1762d187a719,
         type: 3}
       propertyPath: m_initPos.x
@@ -65541,7 +65608,7 @@ PrefabInstance:
     - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
       propertyPath: PlayerStartHP
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3712525934346347080, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
@@ -65562,6 +65629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5914745460017455914, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5914745460017455914, guid: 1d3fc85bb642ee24dac2887cdbb896eb,
         type: 3}
@@ -72249,6 +72321,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lever Export With Animation
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f8709cebe1438494d819340a096ea60e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -75273,6 +75350,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BookHeadMonster_withBlood (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5462556936816707063, guid: cf093e7a3fffdd7438af1762d187a719,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8795388227319461386, guid: cf093e7a3fffdd7438af1762d187a719,
         type: 3}
       propertyPath: m_initPos.x
@@ -75472,44 +75554,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1896421741}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &1896920665
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaterDepthMap
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &1897008368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77991,15 +78035,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 430482, guid: 943b48a47f2b6844f902de299af71248, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -61.4000015
+      value: -61.4
       objectReference: {fileID: 0}
     - target: {fileID: 430482, guid: 943b48a47f2b6844f902de299af71248, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.30000019
+      value: 8.3
       objectReference: {fileID: 0}
     - target: {fileID: 430482, guid: 943b48a47f2b6844f902de299af71248, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.8999996
+      value: -11.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -86843,6 +86887,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water
       objectReference: {fileID: 0}
+    - target: {fileID: 6520459608929871533, guid: d1815a87ce08fec4a946a23dda29aadb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -87020,6 +87069,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BookHeadMonster_withBlood
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462556936816707063, guid: cf093e7a3fffdd7438af1762d187a719,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8795388227319461386, guid: cf093e7a3fffdd7438af1762d187a719,
         type: 3}
