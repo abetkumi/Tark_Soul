@@ -118,8 +118,6 @@ public class EnemyScript : MonoBehaviour, IDamageable
 
         //ナビメッシュエージェントの自動回転を止める
         m_agent.angularSpeed = 0;
-
-
     }
 
     void AttackStart()
