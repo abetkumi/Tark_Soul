@@ -30,7 +30,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
     private NavMeshAgent m_agent;
 
     //アタック用変数
-    [SerializeField] SphereCollider m_attackCollider;
+    [SerializeField] SphereCollider[] m_attackCollider;
     EnemyAttackScript m_enemyAttackScript;
     public float m_rotationSpeed = 5.0f;
 
@@ -38,9 +38,15 @@ public class EnemyScript : MonoBehaviour, IDamageable
     [SerializeField] int StartHP;
     private int m_enemyCurrentHP;
 
+    //SE
+    [SerializeField]
+    AudioClip m_audioClip_Attack,m_audioClip_Dead;
+    AudioSource m_audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
+        m_audioSource = GetComponent<AudioSource>();
         m_playerScript = m_playerObject.GetComponent<PlayerScript>();
         m_enemyAttackScript = GetComponent<EnemyAttackScript>();
         m_animator = GetComponent<Animator>();
@@ -70,8 +76,14 @@ public class EnemyScript : MonoBehaviour, IDamageable
         //ナビメッシュのターゲットをプレイヤーの位置に変更する
         m_agent.SetDestination(m_playerPosition);
 
+        //移動中プレイヤーの方向を向く
+        Vector3 direction = m_playerPosition - transform.position;  // プレイヤー方向のベクトル
+        direction.y = 0;
+        Quaternion m_targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, m_rotationSpeed * Time.deltaTime);
+
         //攻撃ステートに移行する
-        if(Vector3.Distance(transform.position,m_playerPosition) <= 3.0f)
+        if (Vector3.Distance(transform.position,m_playerPosition) <= 3.0f)
         {
             m_enemyStatus = EnemyStatus.Attack;
             m_agent.SetDestination(transform.position);
@@ -96,13 +108,28 @@ public class EnemyScript : MonoBehaviour, IDamageable
         transform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, m_rotationSpeed * Time.deltaTime);
 
         //攻撃判定を有効にする
-        m_attackCollider.enabled = true;
+        foreach (var col in m_attackCollider)
+        {
+            if (col != null)
+            {
+                col.enabled = true;
+            }
+        }
 
         //ナビメッシュエージェントの自動回転を止める
         m_agent.angularSpeed = 0;
+
+
     }
 
-  
+    void AttackStart()
+    {
+        //攻撃SEを鳴らす
+        if (!m_audioSource.isPlaying)
+        {
+            m_audioSource.PlayOneShot(m_audioClip_Attack);
+        }
+    }
 
     private void AttackEnd()
     {
@@ -126,7 +153,13 @@ public class EnemyScript : MonoBehaviour, IDamageable
             m_enemyStatus = EnemyStatus.Walk;
             m_animator.SetBool("AttackFlag", false);
             //攻撃判定を無効にする
-            m_attackCollider.enabled = false;
+            foreach (var col in m_attackCollider)
+            {
+                if (col != null)
+                {
+                    col.enabled = false;
+                }
+            }
             //ナビメッシュエージェントの自動回転を再開する
             m_agent.angularSpeed = 120;
             Debug.Log("攻撃終了");
@@ -138,7 +171,13 @@ public class EnemyScript : MonoBehaviour, IDamageable
             m_enemyStatus = EnemyStatus.Idle;
             m_animator.SetBool("AttackFlag", false);
             //攻撃判定を無効化
-            m_attackCollider.enabled = false;
+            foreach (var col in m_attackCollider)
+            {
+                if (col != null)
+                {
+                    col.enabled = false;
+                }
+            }
             //ナビメッシュエージェントの自動回転を再開する
             m_agent.angularSpeed = 120;
             Debug.Log("攻撃終了");
@@ -170,7 +209,8 @@ public class EnemyScript : MonoBehaviour, IDamageable
         }
 
         isDead = true;
-
+        m_audioSource.Stop();
+        m_audioSource.PlayOneShot(m_audioClip_Dead);
         await UniTask.Delay(3000);
         Destroy(gameObject);
         Debug.Log("敵が4んだ");
@@ -215,7 +255,13 @@ public class EnemyScript : MonoBehaviour, IDamageable
         Debug.Log("敵がダメージを受けた");
 
         //攻撃判定をオフに
-        m_attackCollider.enabled = false;
+        foreach (var col in m_attackCollider)
+        {
+            if (col != null)
+            {
+                col.enabled = false;
+            }
+        }
 
         //HPを減らす
         m_enemyCurrentHP -= value;
