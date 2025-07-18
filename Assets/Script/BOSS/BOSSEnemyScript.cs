@@ -129,12 +129,12 @@ public class BOSSEnemyScript : MonoBehaviour, IDamageable
 
     void doAttack()
     {
-        if (attackFlag == true)
+        if (attackFlag == true || m_bossStatus == BOSSStatus.Death)
         {
             return;
         }
 
-        int attackType = Random.Range(0, 2);
+        int attackType = Random.Range(0, 3);
         switch (attackType)
         {
             case 0:

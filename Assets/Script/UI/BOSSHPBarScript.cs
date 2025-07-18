@@ -16,6 +16,8 @@ public class BOSSHPBarScript : GaugeUIBase
         base.Start();
         _BOSShpSlider = GetComponent<Slider>();
         gameObject.SetActive(false);
+        _MaxHP = 20;
+        Init(_MaxHP);
     }
 
     public void Init(int MaxHP)
